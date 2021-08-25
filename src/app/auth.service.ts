@@ -15,7 +15,6 @@ export class AuthService {
   constructor(private http: HttpClient) {
     this.currentUserChange.subscribe((value) => {
       this.currentUser = value;
-      console.log('Changed user:', this.currentUser);
     });
   }
 
@@ -32,7 +31,6 @@ export class AuthService {
           if (typeof Storage !== 'undefined') {
             localStorage.setItem('user', JSON.stringify(data.user));
             this.currentUserChange.next(data.user);
-            console.log('logged In');
           }
         }
       });

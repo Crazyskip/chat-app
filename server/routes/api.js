@@ -48,19 +48,25 @@ module.exports = function (app, path) {
     }
   });
 
-  app.get("/api/groups/:userID", function (req, res) {
-    const userID = Number(req.params.userID);
+  app.post("/api/groups", function (req, res) {
+    const user = { ...req.body.user };
 
-    const userGroups = groups.filter((group) => group.members.includes(userID));
+    if (user.role === "super admin" || user.role === "group admin") {
+      return res.send({ groups });
+    }
+
+    const userGroups = groups.filter(
+      (group) => group.members.includes(user.id) || group.assistant === user.id
+    );
 
     res.send({
-      success: true,
       groups: userGroups.map((group) => {
         // to copy array not reference
         return {
           ...group,
-          channels: group.channels.filter((channel) =>
-            channel.members.includes(userID)
+          channels: group.channels.filter(
+            (channel) =>
+              channel.members.includes(user.id) || group.assistant === user.id
           ),
         };
       }),

@@ -1,1 +1,11 @@
-<p>groups works!</p>
+<div class="container mx-auto">
+  <h2 class="text-3xl font-bold">Groups</h2>
+  <div class="ml-4">
+    <div *ngFor="let group of groups; index as i" class="mb-2">
+      {{group.name}}
+      <div *ngFor="let channel of group.channels; index as i" class="ml-4">
+        - {{channel.name}}
+      </div>
+    </div>
+  </div>
+</div>
