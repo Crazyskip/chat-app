@@ -12,3 +12,5 @@ let server = http.listen(3000, function () {
   let port = server.address().port;
   console.log(`Server listening on port: ${port}`);
 });
+
+require("./routes/api.js")(app, path);
