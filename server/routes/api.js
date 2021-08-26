@@ -16,6 +16,12 @@ module.exports = function (app, path) {
     }
   });
 
+  app.get("/api/group/:id", function (req, res) {
+    const groupID = Number(req.params.id);
+
+    res.send({ group: data.groups.find((group) => group.id === groupID) });
+  });
+
   app.post("/api/groups", function (req, res) {
     const user = { ...req.body.user };
 

@@ -6,9 +6,11 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { GroupsComponent } from './groups/groups.component';
+import { EditGroupComponent } from './edit-group/edit-group.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, GroupsComponent],
+  declarations: [AppComponent, GroupsComponent, EditGroupComponent, HomeComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

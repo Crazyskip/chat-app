@@ -1,0 +1,6 @@
+<div *ngIf="group; else loading">
+  {{group.name}}
+</div>
+<ng-template #loading>
+  <span class="text-4xl">...Loading Group Details</span>
+</ng-template>

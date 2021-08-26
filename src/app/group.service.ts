@@ -8,7 +8,8 @@ import { Group } from './group';
   providedIn: 'root',
 })
 export class GroupService {
-  url = 'http://localhost:3000/api/groups';
+  groupsURL = 'http://localhost:3000/api/groups/';
+  groupURL = 'http://localhost:3000/api/group/';
 
   constructor(private http: HttpClient) {}
 
@@ -17,6 +18,10 @@ export class GroupService {
   }> {
     return this.http.post<{
       groups: Group[];
-    }>(this.url, { user });
+    }>(this.groupsURL, { user });
+  }
+
+  getGroup(id: number): Observable<{ group: Group }> {
+    return this.http.get<{ group: Group }>(this.groupURL + id);
   }
 }

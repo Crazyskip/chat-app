@@ -25,7 +25,7 @@ export class GroupsComponent implements OnInit {
     this.authService.currentUserChange.subscribe((value) => {
       this.user = value;
     });
-    this.authService.checkLogin();
+    this.user = this.authService.getUser();
   }
 
   ngOnInit(): void {
@@ -33,12 +33,13 @@ export class GroupsComponent implements OnInit {
       this.groupService.getGroups(this.user).subscribe((response) => {
         this.groups = response.groups;
       });
+    } else {
+      this.router.navigateByUrl('/home');
     }
   }
 
   handleSelect(group: Group, channel: Channel) {
     this.selected = { group, channel };
-    console.log(this.selected);
   }
 
   canEditGroup(group: Group): boolean {
@@ -54,6 +55,7 @@ export class GroupsComponent implements OnInit {
   }
 
   routeEditGroup(groupID: number) {
-    this.router.navigateByUrl('/group/' + groupID);
+    console.log(groupID);
+    this.router.navigateByUrl('/groups/' + groupID);
   }
 }

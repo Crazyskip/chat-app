@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { User } from './user';
 
@@ -9,20 +9,15 @@ import { User } from './user';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  username: string = '';
-
   user: User | undefined;
 
-  constructor(private authService: AuthService) {
+  constructor(private router: Router, private authService: AuthService) {
     this.authService.currentUserChange.subscribe((value) => {
       this.user = value;
+      console.log('In App');
+      if (!this.user) this.router.navigateByUrl('/home');
     });
     this.authService.checkLogin();
-  }
-
-  login(f: NgForm) {
-    const username = f.value.username;
-    this.authService.login(username);
   }
 
   logout() {
