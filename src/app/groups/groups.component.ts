@@ -26,6 +26,7 @@ export class GroupsComponent implements OnInit {
       this.user = value;
     });
     this.user = this.authService.getUser();
+    if (!this.user) this.router.navigateByUrl('/home');
   }
 
   ngOnInit(): void {

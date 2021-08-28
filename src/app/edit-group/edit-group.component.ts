@@ -88,12 +88,6 @@ export class EditGroupComponent implements OnInit {
   }
 
   isAdmin(): boolean {
-    if (
-      this.user &&
-      (this.user.role === 'super admin' || this.user.role === 'group admin')
-    ) {
-      return true;
-    }
-    return false;
+    return this.authService.isAdmin();
   }
 }
