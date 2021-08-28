@@ -22,6 +22,19 @@ module.exports = function (app, path) {
     res.send({ group: data.groups.find((group) => group.id === groupID) });
   });
 
+  app.put("/api/group/:id", function (req, res) {
+    const groupIndex = data.groups.findIndex(
+      (group) => group.id === Number(req.params.id)
+    );
+
+    if (groupIndex === -1) return res.status(404).json({});
+
+    const newGroup = { ...req.body };
+    data.groups[groupIndex] = newGroup;
+
+    res.send({ group: newGroup });
+  });
+
   app.post("/api/groups", function (req, res) {
     const user = { ...req.body.user };
 
@@ -30,7 +43,8 @@ module.exports = function (app, path) {
     }
 
     const userGroups = data.groups.filter(
-      (group) => group.members.includes(user.id) || group.assistant === user.id
+      (group) =>
+        group.members.includes(user.id) || group.assistants.includes(user.id)
     );
 
     res.send({
@@ -40,7 +54,8 @@ module.exports = function (app, path) {
           ...group,
           channels: group.channels.filter(
             (channel) =>
-              channel.members.includes(user.id) || group.assistant === user.id
+              channel.members.includes(user.id) ||
+              group.assistants.includes(user.id)
           ),
         };
       }),

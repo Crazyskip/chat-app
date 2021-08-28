@@ -47,7 +47,7 @@ export class GroupsComponent implements OnInit {
       this.user &&
       (this.user.role === 'super admin' ||
         this.user.role === 'group admin' ||
-        group.assistant === this.user.id)
+        group.assistants.includes(this.user.id))
     ) {
       return true;
     }
@@ -55,7 +55,6 @@ export class GroupsComponent implements OnInit {
   }
 
   routeEditGroup(groupID: number) {
-    console.log(groupID);
     this.router.navigateByUrl('/groups/' + groupID);
   }
 }

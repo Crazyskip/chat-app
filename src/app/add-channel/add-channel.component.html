@@ -1,0 +1,25 @@
+<div class="w-full md:w-6/12">
+  <h4>Add Channel</h4>
+  <hr />
+  <div class="px-2 my-2">
+    <div>
+      <label class="block text-grey-darker text-sm font-bold" for="channelName">
+        Channel Name
+      </label>
+      <input name="channelName" id="channelName" [(ngModel)]="channelName" autocomplete="off"
+        class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text" placeholder="Channel Name" />
+    </div>
+
+    <div>
+      <label class="block text-grey-darker text-sm font-bold" for="members">
+        Members
+      </label>
+      <input name="members" id="members" [(ngModel)]="members" autocomplete="off"
+        class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text" placeholder="Members" />
+    </div>
+
+    <button type="submit" (click)="addChannel()"
+      class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 my-2 rounded">Add Channel</button>
+  </div>
+  <hr />
+</div>

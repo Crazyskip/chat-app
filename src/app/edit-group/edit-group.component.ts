@@ -13,7 +13,11 @@ import { User } from '../user';
 export class EditGroupComponent implements OnInit {
   user: User | undefined;
 
-  group: Group | undefined;
+  group!: Group;
+
+  groupName: string = '';
+  groupAssistants: string = '';
+  groupMembers: string = '';
 
   constructor(
     private router: Router,
@@ -32,17 +36,61 @@ export class EditGroupComponent implements OnInit {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.groupService.getGroup(id).subscribe((response) => {
       this.group = response.group;
-      if (!this.authorised()) this.router.navigateByUrl('/groups');
+      this.groupName = this.group.name;
+      this.groupAssistants = this.group.assistants.join(',');
+      this.groupMembers = this.group.members.join(',');
+      if (!this.isAuthorised()) this.router.navigateByUrl('/groups');
     });
   }
 
-  authorised(): boolean {
+  updateGroup() {
+    if (this.group.name !== '') {
+      const assistantsList = this.groupAssistants
+        .split(',')
+        .map((assistant) => Number(assistant));
+
+      const membersList = this.groupMembers
+        .split(',')
+        .map((member) => Number(member));
+
+      this.groupService
+        .updateGroup({
+          id: this.group.id,
+          name: this.groupName,
+          assistants: assistantsList,
+          members: membersList,
+          channels: this.group.channels,
+        })
+        .subscribe(
+          (response) => {
+            if (response.group) {
+              this.group = response.group;
+            }
+          },
+          (error) => {
+            alert('failed to update group');
+          }
+        );
+    }
+  }
+
+  isAuthorised(): boolean {
+    if (this.user && this.group) {
+      if (
+        this.user.role === 'super admin' ||
+        this.user.role === 'group admin' ||
+        this.group.assistants.includes(this.user.id)
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  isAdmin(): boolean {
     if (
       this.user &&
-      this.group &&
-      (this.user.role === 'super admin' ||
-        this.user.role === 'group admin' ||
-        this.group.assistant === this.user.id)
+      (this.user.role === 'super admin' || this.user.role === 'group admin')
     ) {
       return true;
     }

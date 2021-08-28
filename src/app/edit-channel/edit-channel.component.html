@@ -1,0 +1,27 @@
+<div class="w-full md:w-6/12">
+  <div class="px-2 my-2">
+    <div>
+      <div class="flex justify-between items-end">
+        <label class="block text-grey-darker text-sm font-bold" for="channelName">
+          Channel Name
+        </label>
+        <button type="submit" (click)="deleteChannel()"
+          class="text-xs bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded">Delete</button>
+      </div>
+      <input name="channelName" id="channelName-{{channel.id}}" [(ngModel)]="channelName" autocomplete="off"
+        class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text" placeholder="Channel Name" />
+    </div>
+
+    <div>
+      <label class="block text-grey-darker text-sm font-bold" for="members">
+        Members
+      </label>
+      <input name="members" id="members-{{channel.id}}" [(ngModel)]="channelMembers" autocomplete="off"
+        class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text" placeholder="Members" />
+    </div>
+
+    <button type="submit" (click)="updateChannel()"
+      class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 my-2 rounded">Update</button>
+  </div>
+  <hr />
+</div>

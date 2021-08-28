@@ -24,4 +24,8 @@ export class GroupService {
   getGroup(id: number): Observable<{ group: Group }> {
     return this.http.get<{ group: Group }>(this.groupURL + id);
   }
+
+  updateGroup(group: Group): Observable<{ group: Group }> {
+    return this.http.put<{ group: Group }>(this.groupURL + group.id, group);
+  }
 }
