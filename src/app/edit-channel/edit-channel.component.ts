@@ -47,7 +47,7 @@ export class EditChannelComponent implements OnInit {
         .subscribe(
           (response) => {
             if (response.group) {
-              this.group = response.group;
+              this.group.channels = response.group.channels;
             } else {
               alert('failed to update channel');
             }

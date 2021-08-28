@@ -62,6 +62,28 @@ export class GroupsComponent implements OnInit {
     });
   }
 
+  deleteGroup(groupID: number) {
+    this.groupService.deleteGroup(groupID).subscribe(
+      (response) => {
+        if (response.success) {
+          const groupIndex = this.groups.findIndex(
+            (group) => group.id === groupID
+          );
+          this.groups.splice(groupIndex, 1);
+        } else {
+          alert('failed to delete group');
+        }
+      },
+      (error) => {
+        alert('failed to delete group');
+      }
+    );
+  }
+
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+
   handleSelect(group: Group, channel: Channel) {
     this.selected = { group, channel };
   }

@@ -16,6 +16,16 @@ module.exports = function (app, path) {
     }
   });
 
+  app.get("/api/users", function (req, res) {
+    res.send({ users: data.users });
+  });
+
+  app.post("/api/group", function (req, res) {
+    const newGroup = { ...req.body };
+    data.groups.push(newGroup);
+    res.send({ group: newGroup });
+  });
+
   app.get("/api/group/:id", function (req, res) {
     const groupID = Number(req.params.id);
 
@@ -33,6 +43,18 @@ module.exports = function (app, path) {
     data.groups[groupIndex] = newGroup;
 
     res.send({ group: newGroup });
+  });
+
+  app.delete("/api/group/:id", function (req, res) {
+    const groupIndex = data.groups.findIndex(
+      (group) => group.id === Number(req.params.id)
+    );
+
+    if (groupIndex === -1) return res.send({ success: false });
+
+    data.groups.splice(groupIndex, 1);
+
+    res.send({ success: true });
   });
 
   app.get("/api/groups", function (req, res) {

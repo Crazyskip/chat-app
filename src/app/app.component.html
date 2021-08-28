@@ -2,8 +2,12 @@
   <div class="container mx-auto flex items-center justify-between">
     <div class="text-gray-50 py-1 flex items-center">
       <h1 class="text-2xl text-gray-50 font-semibold mr-8">Chat App</h1>
-      <a *ngIf="user" routerLink="/groups"
-        class="text-xl text-gray-50 font-semibold mr-8 hover:text-gray-400">Groups</a>
+      <a *ngIf="user" routerLink="/groups" class="text-xl text-gray-50 font-semibold mr-8 hover:text-gray-400">Groups
+      </a>
+      <a *ngIf="isAdmin()" routerLink="/groups/add"
+        class="text-xl text-gray-50 font-semibold mr-8 hover:text-gray-400">Add
+        Group
+      </a>
     </div>
     <button *ngIf="user" (click)="logout()"
       class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded">

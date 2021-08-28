@@ -77,8 +77,7 @@ export class EditGroupComponent implements OnInit {
   isAuthorised(): boolean {
     if (this.user && this.group) {
       if (
-        this.user.role === 'super admin' ||
-        this.user.role === 'group admin' ||
+        this.authService.isAdmin() ||
         this.group.assistants.includes(this.user.id)
       ) {
         return true;

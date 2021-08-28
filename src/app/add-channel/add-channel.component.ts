@@ -21,22 +21,28 @@ export class AddChannelComponent implements OnInit {
       const membersList = this.members
         .split(',')
         .map((member) => Number(member));
-      this.group.channels.push({
-        id: Math.floor(Math.random() * 10_000_000),
-        name: this.channelName,
-        members: membersList,
-      });
-      this.groupService.updateGroup(this.group).subscribe(
+
+      const updatedGroup = {
+        ...this.group,
+        channels: [
+          ...this.group.channels,
+          {
+            id: Math.floor(Math.random() * 10_000_000),
+            name: this.channelName,
+            members: membersList,
+          },
+        ],
+      };
+
+      this.groupService.updateGroup(updatedGroup).subscribe(
         (response) => {
           if (response.group) {
-            this.group = response.group;
+            this.group.channels = response.group.channels;
           } else {
-            this.group.channels.splice(-1);
             alert('failed to add channel');
           }
         },
         (error) => {
-          this.group.channels.splice(-1);
           alert('failed to add channel');
         }
       );

@@ -1,1 +1,36 @@
-<p>add-group works!</p>
+<div class="container mx-auto">
+  <div class="mx-auto w-full md:w-6/12">
+    <h4 class="text-center text-4xl font-bold my-2">Add Group</h4>
+    <div class="px-2 my-2">
+      <div>
+        <label class="block text-grey-darker text-sm font-bold" for="groupName">
+          Group Name
+        </label>
+        <input name="groupName" id="groupName" [(ngModel)]="groupName" autocomplete="off"
+          class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text" placeholder="Channel Name" />
+      </div>
+
+      <div>
+        <label class="block text-grey-darker text-sm font-bold" for="groupAssistants">
+          Group Assistants
+        </label>
+        <input name="groupAssistants" id="groupAssistants" [(ngModel)]="groupAssistants" autocomplete="off"
+          class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text"
+          placeholder="Group Assistants" />
+      </div>
+
+      <div>
+        <label class="block text-grey-darker text-sm font-bold" for="groupMembers">
+          Group Members
+        </label>
+        <input name="groupMembers" id="groupMembers" [(ngModel)]="groupMembers" autocomplete="off"
+          class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text"
+          placeholder="Group Members" />
+      </div>
+
+      <button type="submit" (click)="addGroup()"
+        class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 my-2 rounded">Add Group</button>
+    </div>
+    <hr />
+  </div>
+</div>

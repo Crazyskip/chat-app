@@ -13,14 +13,6 @@ export class GroupService {
 
   constructor(private http: HttpClient) {}
 
-  getGroupsOld(user: User): Observable<{
-    groups: Group[];
-  }> {
-    return this.http.post<{
-      groups: Group[];
-    }>(this.groupsURL, { user });
-  }
-
   getGroups(): Observable<{
     groups: Group[];
   }> {
@@ -33,7 +25,15 @@ export class GroupService {
     return this.http.get<{ group: Group }>(this.groupURL + id);
   }
 
+  addGroup(group: Group): Observable<{ group: Group }> {
+    return this.http.post<{ group: Group }>(this.groupURL, group);
+  }
+
   updateGroup(group: Group): Observable<{ group: Group }> {
     return this.http.put<{ group: Group }>(this.groupURL + group.id, group);
+  }
+
+  deleteGroup(id: number): Observable<{ success: boolean }> {
+    return this.http.delete<{ success: boolean }>(this.groupURL + id);
   }
 }
