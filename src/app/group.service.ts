@@ -13,12 +13,20 @@ export class GroupService {
 
   constructor(private http: HttpClient) {}
 
-  getGroups(user: User): Observable<{
+  getGroupsOld(user: User): Observable<{
     groups: Group[];
   }> {
     return this.http.post<{
       groups: Group[];
     }>(this.groupsURL, { user });
+  }
+
+  getGroups(): Observable<{
+    groups: Group[];
+  }> {
+    return this.http.get<{
+      groups: Group[];
+    }>(this.groupsURL);
   }
 
   getGroup(id: number): Observable<{ group: Group }> {

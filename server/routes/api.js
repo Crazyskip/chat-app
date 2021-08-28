@@ -35,30 +35,7 @@ module.exports = function (app, path) {
     res.send({ group: newGroup });
   });
 
-  app.post("/api/groups", function (req, res) {
-    const user = { ...req.body.user };
-
-    if (user.role === "super admin" || user.role === "group admin") {
-      return res.send({ groups: data.groups });
-    }
-
-    const userGroups = data.groups.filter(
-      (group) =>
-        group.members.includes(user.id) || group.assistants.includes(user.id)
-    );
-
-    res.send({
-      groups: userGroups.map((group) => {
-        // to copy array not reference
-        return {
-          ...group,
-          channels: group.channels.filter(
-            (channel) =>
-              channel.members.includes(user.id) ||
-              group.assistants.includes(user.id)
-          ),
-        };
-      }),
-    });
+  app.get("/api/groups", function (req, res) {
+    res.send({ groups: data.groups });
   });
 };

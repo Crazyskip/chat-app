@@ -39,7 +39,7 @@
   <app-add-channel [group]="group"></app-add-channel>
   <div>
     <h4>Edit Channels</h4>
-    <hr />
+    <hr class=" w-full md:w-6/12" />
     <app-edit-channel *ngFor="let channel of group.channels" [group]="group" [channel]="channel">
     </app-edit-channel>
   </div>

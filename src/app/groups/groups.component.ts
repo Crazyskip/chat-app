@@ -29,13 +29,36 @@ export class GroupsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.user) {
-      this.groupService.getGroups(this.user).subscribe((response) => {
+    this.groupService.getGroups().subscribe((response) => {
+      // Get all groups and channels for admins
+      if (this.authService.isAdmin()) {
         this.groups = response.groups;
-      });
-    } else {
-      this.router.navigateByUrl('/home');
-    }
+      } else {
+        this.groups = response.groups
+          .filter(
+            (group) =>
+              // Filter for in group
+              this.user &&
+              (group.assistants.includes(this.user.id) ||
+                group.members.includes(this.user.id))
+          )
+          .map((group) => {
+            // Get all channels for group assistants
+            if (this.user && group.assistants.includes(this.user.id)) {
+              return group;
+            } else {
+              // Filter channels for members
+              return {
+                ...group,
+                channels: group.channels.filter(
+                  (channel) =>
+                    this.user && channel.members.includes(this.user.id)
+                ),
+              };
+            }
+          });
+      }
+    });
   }
 
   handleSelect(group: Group, channel: Channel) {

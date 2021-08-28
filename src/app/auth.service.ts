@@ -59,4 +59,12 @@ export class AuthService {
   getUser(): User | undefined {
     return this.currentUser;
   }
+
+  isAdmin(): boolean {
+    if (this.currentUser) {
+      const adminStrings = ['super admin', 'group admin'];
+      if (adminStrings.includes(this.currentUser.role)) return true;
+    }
+    return false;
+  }
 }
