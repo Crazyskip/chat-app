@@ -30,6 +30,9 @@ export class AddUserComponent implements OnInit {
         (response) => {
           if (response.user) {
             this.users.push(response.user);
+            this.username = '';
+            this.email = '';
+            this.role = 'member';
           } else {
             alert('failed to add user');
           }

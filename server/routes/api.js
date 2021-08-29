@@ -1,5 +1,13 @@
 const data = require("../data.json");
+const fs = require("fs");
+
 module.exports = function (app, path) {
+  function updateDataFile() {
+    fs.writeFile("data.json", JSON.stringify(data), function (error) {
+      if (error) console.log(error);
+    });
+  }
+
   app.post("/api/auth", function (req, res) {
     if (!req.body) {
       return res.send({ success: false, errors: {} });
@@ -30,18 +38,28 @@ module.exports = function (app, path) {
     const newUser = { ...req.body };
     data.users[userIndex] = newUser;
 
+    updateDataFile();
+
     res.send({ user: newUser });
   });
 
   app.post("/api/user", function (req, res) {
     const newUser = { ...req.body };
+
     data.users.push(newUser);
+
+    updateDataFile();
+
     res.send({ user: newUser });
   });
 
   app.post("/api/group", function (req, res) {
     const newGroup = { ...req.body };
+
     data.groups.push(newGroup);
+
+    updateDataFile();
+
     res.send({ group: newGroup });
   });
 
@@ -61,6 +79,8 @@ module.exports = function (app, path) {
     const newGroup = { ...req.body };
     data.groups[groupIndex] = newGroup;
 
+    updateDataFile();
+
     res.send({ group: newGroup });
   });
 
@@ -72,6 +92,8 @@ module.exports = function (app, path) {
     if (groupIndex === -1) return res.send({ success: false });
 
     data.groups.splice(groupIndex, 1);
+
+    updateDataFile();
 
     res.send({ success: true });
   });

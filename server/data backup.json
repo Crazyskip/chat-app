@@ -19,15 +19,15 @@
       "role": "member"
     },
     {
-      "id": 4,
       "username": "user2",
       "email": "user2@gmail.com",
+      "id": 4,
       "role": "member"
     },
     {
-      "id": 5,
       "username": "user3",
       "email": "user3@gmail.com",
+      "id": 5,
       "role": "member"
     },
     {
