@@ -20,6 +20,19 @@ module.exports = function (app, path) {
     res.send({ users: data.users });
   });
 
+  app.put("/api/users/:userID", function (req, res) {
+    const userIndex = data.users.findIndex(
+      (user) => user.id === Number(req.params.userID)
+    );
+
+    if (userIndex === -1) return res.status(404).json({});
+
+    const newUser = { ...req.body };
+    data.users[userIndex] = newUser;
+
+    res.send({ user: newUser });
+  });
+
   app.post("/api/group", function (req, res) {
     const newGroup = { ...req.body };
     data.groups.push(newGroup);

@@ -1,0 +1,10 @@
+<div class="my-4 text-lg flex items-center">
+  {{user.username}} - {{user.email}} -
+  <select name="role" id="role" [(ngModel)]="userRole" class="border rounded">
+    <option value="super admin">Super Admin</option>
+    <option value="group admin">Group Admin</option>
+    <option value="member">Member</option>
+  </select>
+  <button class="bg-blue-600 hover:bg-blue-800 text-white text-sm font-bold py-2 px-3 mx-2 rounded"
+    (click)="updateUser()">Update</button>
+</div>

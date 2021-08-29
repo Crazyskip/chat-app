@@ -1,0 +1,9 @@
+<div class="container mx-auto">
+  <div class="mx-auto w-full md:w-6/12">
+    <div *ngFor="let user of users">
+      <div *ngIf="currentUser && user.id !== currentUser.id">
+        <app-edit-user [user]="user"></app-edit-user>
+      </div>
+    </div>
+  </div>
+</div>

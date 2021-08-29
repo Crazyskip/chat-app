@@ -67,4 +67,11 @@ export class AuthService {
     }
     return false;
   }
+
+  isSuperAdmin(): boolean {
+    if (this.currentUser) {
+      return this.currentUser.role === 'super admin';
+    }
+    return false;
+  }
 }

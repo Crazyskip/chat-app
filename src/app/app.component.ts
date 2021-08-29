@@ -26,4 +26,8 @@ export class AppComponent {
   isAdmin(): boolean {
     return this.authService.isAdmin();
   }
+
+  isSuperAdmin(): boolean {
+    return this.authService.isSuperAdmin();
+  }
 }

@@ -4,6 +4,7 @@ import { AddGroupComponent } from './add-group/add-group.component';
 import { EditGroupComponent } from './edit-group/edit-group.component';
 import { GroupsComponent } from './groups/groups.component';
 import { HomeComponent } from './home/home.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'groups', component: GroupsComponent },
   { path: 'groups/add', component: AddGroupComponent },
   { path: 'groups/:id', component: EditGroupComponent },
+  { path: 'users', component: UsersComponent },
 ];
 
 @NgModule({
