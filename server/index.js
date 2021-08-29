@@ -14,3 +14,9 @@ let server = http.listen(3000, function () {
 });
 
 require("./routes/api.js")(app, path);
+
+app.all("*", function (req, res) {
+  res
+    .status(200)
+    .sendFile(`/`, { root: path.join(__dirname, "../dist/chat-app/") });
+});
