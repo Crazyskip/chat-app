@@ -13,9 +13,10 @@ import { EditChannelComponent } from './edit-channel/edit-channel.component';
 import { AddGroupComponent } from './add-group/add-group.component';
 import { UsersComponent } from './users/users.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { AddUserComponent } from './add-user/add-user.component';
 
 @NgModule({
-  declarations: [AppComponent, GroupsComponent, EditGroupComponent, HomeComponent, AddChannelComponent, EditChannelComponent, AddGroupComponent, UsersComponent, EditUserComponent],
+  declarations: [AppComponent, GroupsComponent, EditGroupComponent, HomeComponent, AddChannelComponent, EditChannelComponent, AddGroupComponent, UsersComponent, EditUserComponent, AddUserComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],

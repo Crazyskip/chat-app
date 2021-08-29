@@ -33,6 +33,12 @@ module.exports = function (app, path) {
     res.send({ user: newUser });
   });
 
+  app.post("/api/user", function (req, res) {
+    const newUser = { ...req.body };
+    data.users.push(newUser);
+    res.send({ user: newUser });
+  });
+
   app.post("/api/group", function (req, res) {
     const newGroup = { ...req.body };
     data.groups.push(newGroup);
