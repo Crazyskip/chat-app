@@ -5,7 +5,7 @@
     <hr />
     <div *ngFor="let user of users">
       <div *ngIf="currentUser && user.id !== currentUser.id">
-        <app-edit-user [user]="user"></app-edit-user>
+        <app-edit-user [users]="users" [user]="user"></app-edit-user>
       </div>
     </div>
   </div>

@@ -19,25 +19,29 @@ export class AddUserComponent implements OnInit {
   ngOnInit(): void {}
 
   addUser() {
-    this.userService
-      .addUser({
-        id: Math.floor(Math.random() * 10_000_000),
-        username: this.username,
-        email: this.email,
-        role: this.role,
-      })
-      .subscribe(
-        (response) => {
-          if (response.user) {
-            this.users.push(response.user);
-            this.username = '';
-            this.email = '';
-            this.role = 'member';
-          } else {
-            alert('failed to add user');
-          }
-        },
-        (error) => alert('failed to add user')
-      );
+    if (this.users.find((user) => user.username === this.username)) {
+      alert('User already exists with that username');
+    } else {
+      this.userService
+        .addUser({
+          id: Math.floor(Math.random() * 10_000_000),
+          username: this.username,
+          email: this.email,
+          role: this.role,
+        })
+        .subscribe(
+          (response) => {
+            if (response.user) {
+              this.users.push(response.user);
+              this.username = '';
+              this.email = '';
+              this.role = 'member';
+            } else {
+              alert('failed to add user');
+            }
+          },
+          (error) => alert('failed to add user')
+        );
+    }
   }
 }

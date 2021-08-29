@@ -28,7 +28,7 @@ module.exports = function (app, path) {
     res.send({ users: data.users });
   });
 
-  app.put("/api/users/:userID", function (req, res) {
+  app.put("/api/user/:userID", function (req, res) {
     const userIndex = data.users.findIndex(
       (user) => user.id === Number(req.params.userID)
     );
@@ -41,6 +41,20 @@ module.exports = function (app, path) {
     updateDataFile();
 
     res.send({ user: newUser });
+  });
+
+  app.delete("/api/user/:userID", function (req, res) {
+    const userIndex = data.users.findIndex(
+      (user) => user.id === Number(req.params.userID)
+    );
+
+    if (userIndex === -1) return res.status(404).json({});
+
+    data.users.splice(userIndex, 1);
+
+    updateDataFile();
+
+    res.send({ success: true });
   });
 
   app.post("/api/user", function (req, res) {

@@ -8,6 +8,7 @@ import { UserService } from '../user.service';
   styleUrls: ['./edit-user.component.css'],
 })
 export class EditUserComponent implements OnInit {
+  @Input() users!: User[];
   @Input() user!: User;
 
   userRole: string = '';
@@ -27,5 +28,21 @@ export class EditUserComponent implements OnInit {
         role: this.userRole,
       })
       .subscribe((response) => console.log(response.user));
+  }
+
+  deleteUser() {
+    this.userService.deleteUser(this.user.id).subscribe(
+      (response) => {
+        if (response.success) {
+          const userIndex = this.users.findIndex(
+            (user) => user.id === this.user.id
+          );
+          this.users.splice(userIndex, 1);
+        } else {
+          alert('failed to delete user');
+        }
+      },
+      (error) => alert('failed to delete user')
+    );
   }
 }
