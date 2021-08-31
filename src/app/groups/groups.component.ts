@@ -5,6 +5,8 @@ import { User } from '../user';
 import { Group } from '../group';
 import { Channel } from '../channel';
 import { Router } from '@angular/router';
+import { Message } from '../message';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-groups',
@@ -88,16 +90,21 @@ export class GroupsComponent implements OnInit {
 
   handleSelect(group: Group, channel: Channel) {
     this.selected = { group, channel };
+    this.message = '';
   }
 
-  sendMessage() {
-    if (this.selected && this.user) {
+  getReversedMessages(messages: Message[]) {
+    return [...messages].reverse();
+  }
+
+  sendMessage(f: NgForm) {
+    if (f.value.message !== '' && this.selected && this.user) {
       this.groupService
         .addMessage(
           this.selected.group.id,
           this.selected.channel.id,
           this.user.id,
-          this.message
+          f.value.message
         )
         .subscribe(
           (response) => {
