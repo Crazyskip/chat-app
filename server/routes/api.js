@@ -115,4 +115,26 @@ module.exports = function (app, path) {
   app.get("/api/groups", function (req, res) {
     res.send({ groups: data.groups });
   });
+
+  app.post("/api/group/:groupID/channel/:channelID", function (req, res) {
+    const groupIndex = data.groups.findIndex(
+      (group) => group.id === Number(req.params.groupID)
+    );
+
+    if (groupIndex === -1) return res.send({ success: false });
+
+    const channelIndex = data.groups[groupIndex].channels.findIndex(
+      (channel) => channel.id === Number(req.params.channelID)
+    );
+
+    if (channelIndex === -1) return res.send({ success: false });
+
+    const newMessage = { user: req.body.userID, message: req.body.message };
+
+    data.groups[groupIndex].channels[channelIndex].messages.push(newMessage);
+
+    updateDataFile();
+
+    res.send({ success: true, message: newMessage });
+  });
 };

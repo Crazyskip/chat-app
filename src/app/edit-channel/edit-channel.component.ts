@@ -37,6 +37,7 @@ export class EditChannelComponent implements OnInit {
         id: this.channel.id,
         name: this.channelName,
         members: membersList,
+        messages: [],
       };
 
       this.groupService

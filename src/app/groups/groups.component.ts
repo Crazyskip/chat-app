@@ -15,6 +15,8 @@ export class GroupsComponent implements OnInit {
   user: User | undefined;
   groups: Group[] = [];
 
+  message: string = '';
+
   selected: { group: Group; channel: Channel } | undefined;
 
   constructor(
@@ -86,6 +88,32 @@ export class GroupsComponent implements OnInit {
 
   handleSelect(group: Group, channel: Channel) {
     this.selected = { group, channel };
+  }
+
+  sendMessage() {
+    if (this.selected && this.user) {
+      this.groupService
+        .addMessage(
+          this.selected.group.id,
+          this.selected.channel.id,
+          this.user.id,
+          this.message
+        )
+        .subscribe(
+          (response) => {
+            if (response.success && this.user && this.selected) {
+              this.selected.channel.messages.push({
+                user: response.message.user,
+                message: response.message.message,
+              });
+              this.message = '';
+            } else {
+              alert('Failed to send message');
+            }
+          },
+          (error) => alert('Failed to send message')
+        );
+    }
   }
 
   canEditGroup(group: Group): boolean {

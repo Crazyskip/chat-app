@@ -30,6 +30,7 @@ export class AddChannelComponent implements OnInit {
             id: Math.floor(Math.random() * 10_000_000),
             name: this.channelName,
             members: membersList,
+            messages: [],
           },
         ],
       };

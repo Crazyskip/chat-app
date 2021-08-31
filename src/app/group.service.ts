@@ -35,4 +35,19 @@ export class GroupService {
   deleteGroup(id: number): Observable<{ success: boolean }> {
     return this.http.delete<{ success: boolean }>(this.groupURL + id);
   }
+
+  addMessage(
+    groupID: number,
+    channelID: number,
+    userID: number,
+    message: string
+  ): Observable<{
+    success: boolean;
+    message: { user: number; message: string };
+  }> {
+    return this.http.post<{
+      success: boolean;
+      message: { user: number; message: string };
+    }>(`${this.groupURL + groupID}/channel/${channelID}`, { userID, message });
+  }
 }
