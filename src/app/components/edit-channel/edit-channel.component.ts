@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Channel } from '../channel';
-import { Group } from '../group';
-import { GroupService } from '../group.service';
+import { Channel } from '../../channel';
+import { Group } from '../../group';
+import { GroupService } from '../../services/group.service';
 
 @Component({
   selector: 'app-edit-channel',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { User } from '../user';
-import { UserService } from '../user.service';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../user';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-users',

@@ -13,8 +13,10 @@ let server = http.listen(3000, function () {
   console.log(`Server listening on port: ${port}`);
 });
 
+// Handle backend routes
 require("./routes/api.js")(app, path);
 
+// Handle frontend routes
 app.all("*", function (req, res) {
   res
     .status(200)

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { Group } from '../group';
-import { GroupService } from '../group.service';
-import { User } from '../user';
+import { AuthService } from '../../services/auth.service';
+import { Group } from '../../group';
+import { GroupService } from '../../services/group.service';
+import { User } from '../../user';
 
 @Component({
   selector: 'app-edit-group',

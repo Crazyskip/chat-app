@@ -1,6 +1,6 @@
 <div class="my-4 text-lg flex items-center">
-  {{user.username}} - {{user.email}} -
-  <select name="role" id="role" [(ngModel)]="userRole" class="border rounded">
+  {{user.id}} - {{user.username}} - {{user.email}}
+  <select name="role" id="role" [(ngModel)]="userRole" class="border rounded ml-2">
     <option value="super admin">Super Admin</option>
     <option value="group admin">Group Admin</option>
     <option value="member">Member</option>

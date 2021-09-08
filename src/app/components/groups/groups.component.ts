@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { GroupService } from '../group.service';
-import { AuthService } from '../auth.service';
-import { User } from '../user';
-import { Group } from '../group';
-import { Channel } from '../channel';
+import { GroupService } from '../../services/group.service';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../user';
+import { Group } from '../../group';
+import { Channel } from '../../channel';
 import { Router } from '@angular/router';
-import { Message } from '../message';
+import { Message } from '../../message';
 import { NgForm } from '@angular/forms';
 
 @Component({

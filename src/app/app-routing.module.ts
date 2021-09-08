@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddGroupComponent } from './add-group/add-group.component';
-import { EditGroupComponent } from './edit-group/edit-group.component';
-import { GroupsComponent } from './groups/groups.component';
-import { HomeComponent } from './home/home.component';
-import { UsersComponent } from './users/users.component';
+import { AddGroupComponent } from './components/add-group/add-group.component';
+import { EditGroupComponent } from './components/edit-group/edit-group.component';
+import { GroupsComponent } from './components/groups/groups.component';
+import { HomeComponent } from './components/home/home.component';
+import { UsersComponent } from './components/users/users.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
