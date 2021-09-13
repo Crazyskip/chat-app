@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "start": "cd .. && ng build && cd server && node index.js"
+    "start": "cd .. && ng build && cd server && node index.js",
+    "seed": "cd seeder && node seed.js"
   },
   "author": "Damon Jensen",
   "license": "ISC",

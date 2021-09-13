@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Group } from '../group';
+import { Channel } from '../channel';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,26 @@ export class GroupService {
 
   deleteGroup(id: number): Observable<{ success: boolean }> {
     return this.http.delete<{ success: boolean }>(this.groupURL + id);
+  }
+
+  addChannel(groupID: number, channel: Channel) {
+    return this.http.post(`${this.groupURL + groupID}/channel`, { ...channel });
+  }
+
+  updateChannel(
+    groupID: number,
+    channelID: number,
+    channelName: string,
+    channelMembers: number[]
+  ) {
+    return this.http.put(`${this.groupURL + groupID}/channel/${channelID}`, {
+      channelName,
+      channelMembers,
+    });
+  }
+
+  deleteChannel(groupID: number, channelID: number) {
+    return this.http.delete(`${this.groupURL + groupID}/channel/${channelID}`);
   }
 
   addMessage(

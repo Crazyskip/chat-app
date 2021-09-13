@@ -28,30 +28,16 @@ export class EditChannelComponent implements OnInit {
         .split(',')
         .map((member) => Number(member));
 
-      const channelsCopy = [...this.group.channels];
-      const channelIndex = this.group.channels.findIndex(
-        (channel) => channel.id === this.channel.id
-      );
-
-      channelsCopy[channelIndex] = {
-        id: this.channel.id,
-        name: this.channelName,
-        members: membersList,
-        messages: [],
-      };
-
       this.groupService
-        .updateGroup({
-          ...this.group,
-          channels: channelsCopy,
-        })
+        .updateChannel(
+          this.group.id,
+          this.channel.id,
+          this.channelName,
+          membersList
+        )
         .subscribe(
           (response) => {
-            if (response.group) {
-              this.group.channels = response.group.channels;
-            } else {
-              alert('failed to update channel');
-            }
+            alert('Updated Channel');
           },
           (error) => {
             alert('failed to update channel');
@@ -61,28 +47,17 @@ export class EditChannelComponent implements OnInit {
   }
 
   deleteChannel() {
-    const channelsCopy = [...this.group.channels];
-    const channelIndex = this.group.channels.findIndex(
-      (channel) => channel.id === this.channel.id
+    this.groupService.deleteChannel(this.group.id, this.channel.id).subscribe(
+      (response) => {
+        console.log(response);
+        const channelIndex = this.group.channels.findIndex(
+          (channel) => channel.id === this.channel.id
+        );
+        this.group.channels.splice(channelIndex, 1);
+      },
+      (error) => {
+        alert('failed to delete channel');
+      }
     );
-    channelsCopy.splice(channelIndex);
-
-    this.groupService
-      .updateGroup({
-        ...this.group,
-        channels: channelsCopy,
-      })
-      .subscribe(
-        (response) => {
-          if (response.group) {
-            this.group.channels = response.group.channels;
-          } else {
-            alert('failed to delete channel');
-          }
-        },
-        (error) => {
-          alert('failed to delete channel');
-        }
-      );
   }
 }
