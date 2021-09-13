@@ -4,19 +4,21 @@ const data = dataFunctions.getData();
 var group = require("./group");
 var user = require("./user");
 
-module.exports = function (app, path) {
+module.exports = function (app, db) {
   app.use("/api/group", group);
   app.use("/api/user", user);
 
   // Get user details
-  app.post("/api/auth", function (req, res) {
+  app.post("/api/auth", async function (req, res) {
     if (!req.body) {
       return res.send({ success: false, errors: {} });
     }
 
     const username = req.body.username;
 
-    const user = data.users.find((user) => user.username === username);
+    const users = db.collection("users");
+
+    const user = await users.findOne({ username: username });
 
     if (user) {
       res.send({ success: true, user });
