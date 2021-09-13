@@ -27,7 +27,7 @@ export class EditUserComponent implements OnInit {
         email: this.user.email,
         role: this.userRole,
       })
-      .subscribe((response) => console.log(response.user));
+      .subscribe((response) => alert('Updated User'));
   }
 
   deleteUser() {
