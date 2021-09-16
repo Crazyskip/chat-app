@@ -30,12 +30,12 @@ MongoClient.connect(
 
     // Handle backend routes
     require("./routes/api.js")(app, db);
+
+    // Handle frontend routes
+    app.all("*", function (req, res) {
+      res
+        .status(200)
+        .sendFile(`/`, { root: path.join(__dirname, "../dist/chat-app/") });
+    });
   }
 );
-
-// Handle frontend routes
-// app.all("*", function (req, res) {
-//   res
-//     .status(200)
-//     .sendFile(`/`, { root: path.join(__dirname, "../dist/chat-app/") });
-// });

@@ -49,7 +49,6 @@ module.exports = function (app, db) {
     const groupID = Number(req.params.id);
 
     const newChannel = req.body;
-    console.log(newChannel);
 
     const groupsCollection = db.collection("groups");
     await groupsCollection.updateOne(
@@ -60,14 +59,13 @@ module.exports = function (app, db) {
     res.send({ success: true });
   });
 
+  // Update Channel
   app.put("/api/group/:groupId/channel/:channelId", async function (req, res) {
     const groupID = Number(req.params.groupId);
     const channelID = Number(req.params.channelId);
 
     const channelName = req.body.channelName;
     const channelMembers = req.body.channelMembers;
-
-    console.log(channelName, channelMembers);
 
     const groupsCollection = db.collection("groups");
     await groupsCollection.updateOne(
