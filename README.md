@@ -2,6 +2,10 @@
 
 This is a realtime chat application and was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.1.4. All data used in this application is stored in a local mongodb database.
 
+## Seed Database
+
+In server directory run `npm run seed`. This will add demo users and groups to the database.
+
 ## Development server
 
 In server directory run `npm run dev`. This will run the backend server on `http://localhost:3000`.  
