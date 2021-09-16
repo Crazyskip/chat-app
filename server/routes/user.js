@@ -1,12 +1,16 @@
 module.exports = function (app, db) {
   // Add user
-  app.post("/api/user", function (req, res) {
+  app.post("/api/user", async function (req, res) {
     const newUser = { ...req.body };
 
     const usersCollection = db.collection("users");
-    usersCollection.insertOne({ ...newUser });
-
-    res.send({ user: newUser });
+    const user = await usersCollection.findOne({ username: newUser.username });
+    if (!user) {
+      usersCollection.insertOne({ ...newUser });
+      res.send({ user: newUser, err: null });
+    } else {
+      res.send({ user: null, err: "User already exists with that username" });
+    }
   });
 
   // Delete user

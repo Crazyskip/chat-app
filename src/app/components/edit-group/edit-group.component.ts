@@ -33,7 +33,7 @@ export class EditGroupComponent implements OnInit {
   }
 
   getGroup() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
+    const id = String(this.route.snapshot.paramMap.get('id'));
     this.groupService.getGroup(id).subscribe((response) => {
       this.group = response.group;
       this.groupName = this.group.name;
@@ -55,7 +55,7 @@ export class EditGroupComponent implements OnInit {
 
       this.groupService
         .updateGroup({
-          id: this.group.id,
+          _id: this.group._id,
           name: this.groupName,
           assistants: assistantsList,
           members: membersList,

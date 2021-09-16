@@ -29,7 +29,7 @@ MongoClient.connect(
     const db = client.db(dbName);
 
     // Handle backend routes
-    require("./routes/api.js")(app, db);
+    require("./routes/api.js")(app, db, ObjectId);
 
     // Handle frontend routes
     app.all("*", function (req, res) {

@@ -29,7 +29,7 @@ export class AddChannelComponent implements OnInit {
         messages: [],
       };
 
-      this.groupService.addChannel(this.group.id, newChannel).subscribe(
+      this.groupService.addChannel(this.group._id, newChannel).subscribe(
         (response) => {
           console.log(response);
           this.group.channels.push({ ...newChannel });

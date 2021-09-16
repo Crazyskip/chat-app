@@ -1,10 +1,10 @@
-module.exports = function (app, db) {
+module.exports = function (app, db, ObjectId) {
   // Get Group
   app.get("/api/group/:id", async function (req, res) {
-    const groupID = Number(req.params.id);
+    const groupID = new ObjectId(req.params.id);
 
     const groupsCollection = db.collection("groups");
-    const group = await groupsCollection.findOne({ id: groupID });
+    const group = await groupsCollection.findOne({ _id: groupID });
 
     res.send({ group });
   });
@@ -12,6 +12,7 @@ module.exports = function (app, db) {
   // New group
   app.post("/api/group", async function (req, res) {
     const newGroup = { ...req.body };
+    delete newGroup._id;
 
     const groupsCollection = db.collection("groups");
     await groupsCollection.insertOne({ ...newGroup });
@@ -21,13 +22,13 @@ module.exports = function (app, db) {
 
   // Update Group
   app.put("/api/group/:id", async function (req, res) {
-    const groupID = Number(req.params.id);
+    const groupID = new ObjectId(req.params.id);
 
     const groupsCollection = db.collection("groups");
     const updatedGroup = req.body;
 
     await groupsCollection.updateOne(
-      { id: groupID },
+      { _id: groupID },
       { $set: { ...updatedGroup } }
     );
 
@@ -36,23 +37,23 @@ module.exports = function (app, db) {
 
   // Delete Group
   app.delete("/api/group/:id", async function (req, res) {
-    const groupID = Number(req.params.id);
+    const groupID = new ObjectId(req.params.id);
 
     const groupsCollection = db.collection("groups");
-    await groupsCollection.deleteOne({ id: groupID });
+    await groupsCollection.deleteOne({ _id: groupID });
 
     res.send({ success: true });
   });
 
   // Add Channel
   app.post("/api/group/:id/channel", async function (req, res) {
-    const groupID = Number(req.params.id);
+    const groupID = new ObjectId(req.params.id);
 
     const newChannel = req.body;
 
     const groupsCollection = db.collection("groups");
     await groupsCollection.updateOne(
-      { id: groupID },
+      { _id: groupID },
       { $push: { channels: { ...newChannel } } }
     );
 
@@ -61,7 +62,7 @@ module.exports = function (app, db) {
 
   // Update Channel
   app.put("/api/group/:groupId/channel/:channelId", async function (req, res) {
-    const groupID = Number(req.params.groupId);
+    const groupID = new ObjectId(req.params.groupId);
     const channelID = Number(req.params.channelId);
 
     const channelName = req.body.channelName;
@@ -69,7 +70,7 @@ module.exports = function (app, db) {
 
     const groupsCollection = db.collection("groups");
     await groupsCollection.updateOne(
-      { id: groupID, "channels.id": channelID },
+      { _id: groupID, "channels.id": channelID },
       {
         $set: {
           "channels.$.name": channelName,
@@ -85,12 +86,12 @@ module.exports = function (app, db) {
   app.delete(
     "/api/group/:groupId/channel/:channelId",
     async function (req, res) {
-      const groupID = Number(req.params.groupId);
+      const groupID = new ObjectId(req.params.groupId);
       const channelID = Number(req.params.channelId);
 
       const groupsCollection = db.collection("groups");
       await groupsCollection.updateOne(
-        { id: groupID },
+        { _id: groupID },
         { $pull: { channels: { id: channelID } } }
       );
 
@@ -100,7 +101,7 @@ module.exports = function (app, db) {
 
   // Add message
   app.post("/api/group/:groupId/channel/:channelId", async function (req, res) {
-    const groupID = Number(req.params.groupId);
+    const groupID = new ObjectId(req.params.groupId);
     const channelID = Number(req.params.channelId);
 
     const newMessage = { user: req.body.userID, message: req.body.message };
@@ -108,7 +109,7 @@ module.exports = function (app, db) {
     const groupsCollection = db.collection("groups");
 
     await groupsCollection.updateOne(
-      { id: groupID, "channels.id": channelID },
+      { _id: groupID, "channels.id": channelID },
       { $push: { "channels.$.messages": { ...newMessage } } }
     );
 

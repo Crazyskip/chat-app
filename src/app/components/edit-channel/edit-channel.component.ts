@@ -30,7 +30,7 @@ export class EditChannelComponent implements OnInit {
 
       this.groupService
         .updateChannel(
-          this.group.id,
+          this.group._id,
           this.channel.id,
           this.channelName,
           membersList
@@ -47,7 +47,7 @@ export class EditChannelComponent implements OnInit {
   }
 
   deleteChannel() {
-    this.groupService.deleteChannel(this.group.id, this.channel.id).subscribe(
+    this.groupService.deleteChannel(this.group._id, this.channel.id).subscribe(
       (response) => {
         console.log(response);
         const channelIndex = this.group.channels.findIndex(

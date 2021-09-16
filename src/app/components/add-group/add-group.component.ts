@@ -36,7 +36,7 @@ export class AddGroupComponent implements OnInit {
   addGroup() {
     if (this.groupName !== '') {
       const newGroup = {
-        id: Math.floor(Math.random() * 10_000_000),
+        _id: '',
         name: this.groupName,
         assistants: this.groupAssistants
           .split(',')

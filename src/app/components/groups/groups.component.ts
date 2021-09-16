@@ -66,13 +66,14 @@ export class GroupsComponent implements OnInit {
     });
   }
 
-  deleteGroup(groupID: number) {
-    this.groupService.deleteGroup(groupID).subscribe(
+  deleteGroup(_id: string) {
+    this.groupService.deleteGroup(_id).subscribe(
       (response) => {
         if (response.success) {
           const groupIndex = this.groups.findIndex(
-            (group) => group.id === groupID
+            (group) => group._id === _id
           );
+          this.selected = undefined;
           this.groups.splice(groupIndex, 1);
         } else {
           alert('failed to delete group');
@@ -101,7 +102,7 @@ export class GroupsComponent implements OnInit {
     if (f.value.message !== '' && this.selected && this.user) {
       this.groupService
         .addMessage(
-          this.selected.group.id,
+          this.selected.group._id,
           this.selected.channel.id,
           this.user.id,
           f.value.message
@@ -135,7 +136,7 @@ export class GroupsComponent implements OnInit {
     return false;
   }
 
-  routeEditGroup(groupID: number) {
-    this.router.navigateByUrl('/groups/' + groupID);
+  routeEditGroup(_id: string) {
+    this.router.navigateByUrl('/groups/' + _id);
   }
 }

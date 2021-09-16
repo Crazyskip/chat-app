@@ -1,4 +1,4 @@
-module.exports = function (app, db) {
+module.exports = function (app, db, ObjectId) {
   // Get user details
   app.post("/api/auth", async function (req, res) {
     if (!req.body) {
@@ -34,7 +34,7 @@ module.exports = function (app, db) {
 
   /**************** Group ****************/
 
-  require("./group.js")(app, db);
+  require("./group.js")(app, db, ObjectId);
 
   /**************** User ****************/
 
