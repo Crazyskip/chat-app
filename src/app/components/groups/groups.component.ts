@@ -137,6 +137,6 @@ export class GroupsComponent implements OnInit {
   }
 
   routeEditGroup(_id: string) {
-    this.router.navigateByUrl('/groups/' + _id);
+    this.router.navigateByUrl('/groups/edit/' + _id);
   }
 }

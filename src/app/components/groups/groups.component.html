@@ -1,40 +1,5 @@
-<div class="flex">
-  <div class="group-container bg-blue-50">
-    <h2 class="text-3xl font-bold text-center">Groups</h2>
-    <hr class="my-1" />
-    <div class="mx-2">
-      <div *ngFor="let group of groups">
-        <div class="flex justify-between">
-          <span class="font-bold">{{group.name}}</span>
-          <div>
-            <button *ngIf="user && canEditGroup(group)" (click)="routeEditGroup(group._id)"
-              class="bg-green-500 hover:bg-green-600 rounded px-1">Edit</button>
-            <button *ngIf="isAdmin()" (click)="deleteGroup(group._id)"
-              class="bg-red-500 hover:bg-red-600 rounded px-1 mx-1">Del</button>
-          </div>
-        </div>
-
-        <div *ngFor="let channel of group.channels" (click)="handleSelect(group, channel)"
-          [ngClass]="{'text-black': selected && selected.group._id === group._id && selected.channel.id === channel.id}"
-          class="ml-4 text-gray-500 font-medium cursor-pointer hover:text-black">
-          {{channel.name}}
-        </div>
-        <hr class="my-2" />
-      </div>
-    </div>
-  </div>
-
-  <div class="messages-container">
-    <div *ngIf="selected" class="messages flex flex-col-reverse overflow-y-scroll">
-      <div *ngFor="let message of getReversedMessages(selected.channel.messages)" class="py-3 w-full">
-        <span [ngClass]="{'float-right mr-2': user && user.id === message.user}"
-          class="border rounded ml-2 px-4 py-2">{{message.message}}</span>
-      </div>
-    </div>
-    <form *ngIf="selected" class="flex" #f="ngForm" (ngSubmit)="sendMessage(f)">
-      <input name="message" id="message" [(ngModel)]="message" autocomplete="off"
-        class="border w-full py-2 px-3 text-grey-darker" type="text" placeholder="Message">
-      <input type="submit" value="Send" class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-8">
-    </form>
+<div class="container mx-auto">
+  <div *ngFor="let group of groups">
+    <a routerLink="/groups/{{group._id}}" class="text-xl text-black">{{group.name}}</a>
   </div>
 </div>

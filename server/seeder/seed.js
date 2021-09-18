@@ -2,11 +2,12 @@ const MongoClient = require("mongodb").MongoClient;
 const url = "mongodb://localhost:27017";
 
 const users = [
-  { username: "super", email: "super@gmail.com", role: "super admin" },
-  { username: "admin", email: "group@gmail.com", role: "group admin" },
-  { username: "user3", email: "user3@gmail.com", role: "member" },
-  { username: "user4", email: "user4@gmail.com", role: "member" },
-  { username: "user5", email: "user5@gmail.com", role: "member" },
+  { id: 1, username: "super", email: "super@gmail.com", role: "super admin" },
+  { id: 2, username: "admin", email: "group@gmail.com", role: "group admin" },
+  { id: 3, username: "user3", email: "user3@gmail.com", role: "member" },
+  { id: 4, username: "user4", email: "user4@gmail.com", role: "member" },
+  { id: 5, username: "user5", email: "user5@gmail.com", role: "member" },
+  { id: 6, username: "user6", email: "user6@gmail.com", role: "member" },
 ];
 
 const groups = [

@@ -100,19 +100,19 @@ module.exports = function (app, db, ObjectId) {
   );
 
   // Add message
-  app.post("/api/group/:groupId/channel/:channelId", async function (req, res) {
-    const groupID = new ObjectId(req.params.groupId);
-    const channelID = Number(req.params.channelId);
+  // app.post("/api/group/:groupId/channel/:channelId", async function (req, res) {
+  //   const groupID = new ObjectId(req.params.groupId);
+  //   const channelID = Number(req.params.channelId);
 
-    const newMessage = { user: req.body.userID, message: req.body.message };
+  //   const newMessage = { user: req.body.userID, message: req.body.message };
 
-    const groupsCollection = db.collection("groups");
+  //   const groupsCollection = db.collection("groups");
 
-    await groupsCollection.updateOne(
-      { _id: groupID, "channels.id": channelID },
-      { $push: { "channels.$.messages": { ...newMessage } } }
-    );
+  //   await groupsCollection.updateOne(
+  //     { _id: groupID, "channels.id": channelID },
+  //     { $push: { "channels.$.messages": { ...newMessage } } }
+  //   );
 
-    res.send({ success: true, message: newMessage });
-  });
+  //   res.send({ success: true, message: newMessage });
+  // });
 };
