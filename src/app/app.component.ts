@@ -14,9 +14,17 @@ export class AppComponent {
   constructor(private router: Router, private authService: AuthService) {
     this.authService.currentUserChange.subscribe((value) => {
       this.user = value;
-      if (!this.user) this.router.navigateByUrl('/home');
+      this.handleRouting();
     });
     this.authService.checkLogin();
+  }
+
+  private handleRouting(): void {
+    if ((this.router.url === '/' || this.router.url === '/home') && this.user) {
+      this.router.navigateByUrl('/groups');
+    } else {
+      this.router.navigateByUrl('/home');
+    }
   }
 
   logout(): void {

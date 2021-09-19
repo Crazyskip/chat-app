@@ -23,9 +23,6 @@ export class AddGroupComponent implements OnInit {
     private groupService: GroupService,
     private authService: AuthService
   ) {
-    this.authService.currentUserChange.subscribe((value) => {
-      this.user = value;
-    });
     this.user = this.authService.getUser();
     if (!this.user) this.router.navigateByUrl('/home');
     if (!this.authService.isAdmin()) this.router.navigateByUrl('/groups');

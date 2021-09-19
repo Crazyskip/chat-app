@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { User } from '../../user';
 import { Group } from '../../group';
 import { Channel } from '../../channel';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Message } from '../../message';
 import { NgForm } from '@angular/forms';
 import { SocketService } from 'src/app/services/socket.service';
@@ -29,13 +29,7 @@ export class MessagingComponent implements OnInit {
     private groupService: GroupService,
     private authService: AuthService,
     private socketService: SocketService
-  ) {
-    this.authService.currentUserChange.subscribe((value) => {
-      this.user = value;
-    });
-    this.user = this.authService.getUser();
-    if (!this.user) this.router.navigateByUrl('/home');
-  }
+  ) {}
 
   messageSubscription: Subscription = new Subscription();
 
@@ -71,6 +65,7 @@ export class MessagingComponent implements OnInit {
     }
     this.selected = { group, channel };
     this.message = '';
+    this.getGroup();
     if (this.user) {
       this.joinChannel(this.user.id, group._id, channel.id);
     }

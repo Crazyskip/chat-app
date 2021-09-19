@@ -9,7 +9,7 @@ import { User } from '../user';
 export class AuthService {
   url = 'http://localhost:3000/api/auth';
 
-  currentUser: User | undefined;
+  currentUser!: User;
   currentUserChange: Subject<User> = new Subject<User>();
 
   constructor(private http: HttpClient) {
@@ -28,35 +28,27 @@ export class AuthService {
       })
       .subscribe((data) => {
         if (data.success) {
-          if (typeof Storage !== 'undefined') {
-            localStorage.setItem('user', JSON.stringify(data.user));
-            this.currentUserChange.next(data.user);
-          }
+          localStorage.setItem('user', JSON.stringify(data.user));
+          this.currentUserChange.next(data.user);
         }
       });
   }
 
   logout(): void {
-    if (typeof Storage !== undefined) {
-      localStorage.removeItem('user');
-      this.currentUserChange.next(undefined);
-    } else {
-      alert('Failed logging out');
-    }
+    localStorage.removeItem('user');
+    this.currentUserChange.next(undefined);
   }
 
   checkLogin(): void {
-    if (typeof Storage != undefined) {
-      if (localStorage.getItem('user')) {
-        const userString = localStorage.getItem('user');
-        if (userString) {
-          this.currentUserChange.next(JSON.parse(userString));
-        }
-      }
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      this.currentUserChange.next(JSON.parse(userString));
+    } else {
+      this.currentUserChange.next(undefined);
     }
   }
 
-  getUser(): User | undefined {
+  getUser(): User {
     return this.currentUser;
   }
 

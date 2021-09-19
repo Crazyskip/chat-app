@@ -12,15 +12,7 @@ import { User } from '../../user';
 export class HomeComponent implements OnInit {
   user: User | undefined;
 
-  constructor(private router: Router, private authService: AuthService) {
-    this.authService.currentUserChange.subscribe((value) => {
-      this.user = value;
-      if (this.user) {
-        this.router.navigateByUrl('/groups');
-      }
-    });
-    this.authService.checkLogin();
-  }
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {}
 

@@ -5,8 +5,6 @@ import { User } from '../../user';
 import { Group } from '../../group';
 import { Channel } from '../../channel';
 import { Router } from '@angular/router';
-import { Message } from '../../message';
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-groups',
@@ -14,10 +12,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./groups.component.css'],
 })
 export class GroupsComponent implements OnInit {
-  user: User | undefined;
+  user: User;
   groups: Group[] = [];
-
-  message: string = '';
 
   selected: { group: Group; channel: Channel } | undefined;
 
@@ -26,44 +22,27 @@ export class GroupsComponent implements OnInit {
     private groupService: GroupService,
     private authService: AuthService
   ) {
-    this.authService.currentUserChange.subscribe((value) => {
-      this.user = value;
-    });
     this.user = this.authService.getUser();
-    if (!this.user) this.router.navigateByUrl('/home');
   }
 
   ngOnInit(): void {
     this.groupService.getGroups().subscribe((response) => {
-      // Get all groups and channels for admins
-      if (this.authService.isAdmin()) {
-        this.groups = response.groups;
-      } else {
-        this.groups = response.groups
-          .filter(
-            (group) =>
-              // Filter for in group
-              this.user &&
-              (group.assistants.includes(this.user.id) ||
-                group.members.includes(this.user.id))
-          )
-          .map((group) => {
-            // Get all channels for group assistants
-            if (this.user && group.assistants.includes(this.user.id)) {
-              return group;
-            } else {
-              // Filter channels for members
-              return {
-                ...group,
-                channels: group.channels.filter(
-                  (channel) =>
-                    this.user && channel.members.includes(this.user.id)
-                ),
-              };
-            }
-          });
-      }
+      this.groups = this.filterUserGroups(response.groups);
     });
+  }
+
+  private filterUserGroups(allGroups: Group[]): Group[] {
+    // Get all groups and channels for admins
+    if (this.authService.isAdmin()) {
+      return allGroups;
+    } else {
+      return allGroups.filter(
+        (group) =>
+          // Filter for in group
+          group.assistants.includes(this.user.id) ||
+          group.members.includes(this.user.id)
+      );
+    }
   }
 
   deleteGroup(_id: string) {
@@ -89,48 +68,8 @@ export class GroupsComponent implements OnInit {
     return this.authService.isAdmin();
   }
 
-  handleSelect(group: Group, channel: Channel) {
-    this.selected = { group, channel };
-    this.message = '';
-  }
-
-  getReversedMessages(messages: Message[]) {
-    return [...messages].reverse();
-  }
-
-  sendMessage(f: NgForm) {
-    if (f.value.message !== '' && this.selected && this.user) {
-      this.groupService
-        .addMessage(
-          this.selected.group._id,
-          this.selected.channel.id,
-          this.user.id,
-          f.value.message
-        )
-        .subscribe(
-          (response) => {
-            if (response.success && this.user && this.selected) {
-              this.selected.channel.messages.push({
-                user: response.message.user,
-                message: response.message.message,
-              });
-              this.message = '';
-            } else {
-              alert('Failed to send message');
-            }
-          },
-          (error) => alert('Failed to send message')
-        );
-    }
-  }
-
   canEditGroup(group: Group): boolean {
-    if (
-      this.user &&
-      (this.user.role === 'super admin' ||
-        this.user.role === 'group admin' ||
-        group.assistants.includes(this.user.id))
-    ) {
+    if (this.authService.isAdmin() || group.assistants.includes(this.user.id)) {
       return true;
     }
     return false;

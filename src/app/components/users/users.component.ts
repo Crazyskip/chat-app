@@ -19,9 +19,6 @@ export class UsersComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService
   ) {
-    this.authService.currentUserChange.subscribe((value) => {
-      this.currentUser = value;
-    });
     this.currentUser = this.authService.getUser();
     if (!this.currentUser) this.router.navigateByUrl('/home');
     if (!this.authService.isSuperAdmin()) this.router.navigateByUrl('/groups');
