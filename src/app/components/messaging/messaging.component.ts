@@ -6,9 +6,9 @@ import { Group } from '../../group';
 import { Channel } from '../../channel';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Message } from '../../message';
-import { NgForm } from '@angular/forms';
 import { SocketService } from 'src/app/services/socket.service';
 import { Subscription } from 'rxjs';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-messaging',
@@ -17,6 +17,7 @@ import { Subscription } from 'rxjs';
 })
 export class MessagingComponent implements OnInit {
   user: User;
+  users: User[] = [];
   group: Group | undefined;
   message: string = '';
   selected: Channel | undefined;
@@ -27,6 +28,7 @@ export class MessagingComponent implements OnInit {
     private route: ActivatedRoute,
     private groupService: GroupService,
     private authService: AuthService,
+    private userService: UserService,
     private socketService: SocketService
   ) {
     this.user = this.authService.getUser();
@@ -34,6 +36,9 @@ export class MessagingComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGroup();
+    this.userService.getUsers().subscribe((response) => {
+      this.users = response.users;
+    });
   }
 
   private getGroup(): void {
@@ -97,5 +102,11 @@ export class MessagingComponent implements OnInit {
       );
       this.message = '';
     }
+  }
+
+  getUserImage(id: number): string {
+    // const user = this.users.find((user) => user.id === id);
+    // if (user) return user.image;
+    return 'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg';
   }
 }

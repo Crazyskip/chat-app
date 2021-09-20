@@ -15,9 +15,12 @@
 
   <div class="messages-container">
     <div *ngIf="selected" class="messages flex flex-col-reverse overflow-y-scroll">
-      <div *ngFor="let message of getReversedMessages(selected.messages)" class="py-3 w-full">
-        <span [ngClass]="{'float-right mr-2': user.id === message.user}"
-          class="border rounded ml-2 px-4 py-2">{{message.message}}</span>
+      <div *ngFor="let message of getReversedMessages(selected.messages)" class="py-1 w-full">
+        <span [ngClass]="{'float-right flex-row-reverse': user.id === message.user}" class="flex items-center">
+          <img src={{getUserImage(message.user)}} height="30" width="30"
+            class="rounded-full w-11 h-11 object-cover mx-2" />
+          <span class="border rounded px-4 py-2">{{message.message}}</span>
+        </span>
       </div>
     </div>
     <form *ngIf="selected" class="flex">
