@@ -4,8 +4,8 @@
     <hr class="my-1" />
     <div class="mx-2">
       <div *ngIf="group">
-        <div *ngFor="let channel of group.channels" (click)="handleSelect(group, channel)"
-          [ngClass]="{'text-black': selected && selected.group._id === group._id && selected.channel.id === channel.id}"
+        <div *ngFor="let channel of group.channels" (click)="handleSelect(channel)"
+          [ngClass]="{'text-black': selected && selected.id === channel.id}"
           class="ml-4 text-gray-500 font-medium cursor-pointer hover:text-black">
           {{channel.name}}
         </div>
@@ -15,15 +15,16 @@
 
   <div class="messages-container">
     <div *ngIf="selected" class="messages flex flex-col-reverse overflow-y-scroll">
-      <div *ngFor="let message of getReversedMessages(selected.channel.messages)" class="py-3 w-full">
-        <span [ngClass]="{'float-right mr-2': user && user.id === message.user}"
+      <div *ngFor="let message of getReversedMessages(selected.messages)" class="py-3 w-full">
+        <span [ngClass]="{'float-right mr-2': user.id === message.user}"
           class="border rounded ml-2 px-4 py-2">{{message.message}}</span>
       </div>
     </div>
-    <form *ngIf="selected" class="flex" #f="ngForm" (ngSubmit)="sendMessage(f)">
+    <form *ngIf="selected" class="flex">
       <input name="message" id="message" [(ngModel)]="message" autocomplete="off"
         class="border w-full py-2 px-3 text-grey-darker" type="text" placeholder="Message">
-      <input type="submit" value="Send" class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-8">
+      <button type="submit" (click)="sendMessage()"
+        class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-8">Send</button>
     </form>
   </div>
 </div>

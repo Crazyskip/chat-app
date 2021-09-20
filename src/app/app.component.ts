@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { AuthService } from './services/auth.service';
 import { User } from './user';
 
@@ -11,7 +12,11 @@ import { User } from './user';
 export class AppComponent {
   user: User | undefined;
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private location: Location
+  ) {
     this.authService.currentUserChange.subscribe((value) => {
       this.user = value;
       this.handleRouting();
@@ -20,9 +25,9 @@ export class AppComponent {
   }
 
   private handleRouting(): void {
-    if ((this.router.url === '/' || this.router.url === '/home') && this.user) {
+    if (this.location.path() === '/home' && this.user) {
       this.router.navigateByUrl('/groups');
-    } else {
+    } else if (this.location.path() !== '/home' && !this.user) {
       this.router.navigateByUrl('/home');
     }
   }

@@ -16,12 +16,11 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./messaging.component.css'],
 })
 export class MessagingComponent implements OnInit {
-  user: User | undefined;
+  user: User;
   group: Group | undefined;
-
   message: string = '';
-
-  selected: { group: Group; channel: Channel } | undefined;
+  selected: Channel | undefined;
+  messageSubscription: Subscription = new Subscription();
 
   constructor(
     private router: Router,
@@ -29,15 +28,15 @@ export class MessagingComponent implements OnInit {
     private groupService: GroupService,
     private authService: AuthService,
     private socketService: SocketService
-  ) {}
-
-  messageSubscription: Subscription = new Subscription();
+  ) {
+    this.user = this.authService.getUser();
+  }
 
   ngOnInit(): void {
     this.getGroup();
   }
 
-  getGroup(): void {
+  private getGroup(): void {
     const groupID = this.route.snapshot.paramMap.get('id');
     if (groupID) {
       this.groupService.getGroup(groupID).subscribe((response) => {
@@ -45,6 +44,7 @@ export class MessagingComponent implements OnInit {
           this.group = response.group;
         } else {
           alert(`Could not find group with id: ${groupID}`);
+          this.router.navigateByUrl('/groups');
         }
       });
     }
@@ -54,20 +54,18 @@ export class MessagingComponent implements OnInit {
     return this.authService.isAdmin();
   }
 
-  handleSelect(group: Group, channel: Channel) {
-    if (this.user && this.selected) {
-      this.socketService.leaveRoom(
-        this.user.id,
-        this.selected.group._id,
-        this.selected.channel.id
-      );
-      this.messageSubscription.unsubscribe();
-    }
-    this.selected = { group, channel };
-    this.message = '';
-    this.getGroup();
-    if (this.user) {
-      this.joinChannel(this.user.id, group._id, channel.id);
+  handleSelect(channel: Channel) {
+    if (this.group) {
+      if (this.selected) {
+        this.leaveChannel(this.user.id, this.group._id, this.selected.id);
+      }
+      this.groupService
+        .getChannel(this.group._id, channel.id)
+        .subscribe((response) => {
+          this.selected = response.channel;
+        });
+      this.joinChannel(this.user.id, this.group._id, channel.id);
+      this.message = '';
     }
   }
 
@@ -80,40 +78,24 @@ export class MessagingComponent implements OnInit {
     this.messageSubscription = this.socketService
       .onMessage()
       .subscribe((message: Message) => {
-        this.selected?.channel.messages.push(message);
+        if (this.selected) this.selected.messages.push(message);
       });
   }
 
-  sendMessage(f: NgForm) {
-    if (f.value.message !== '' && this.selected && this.user) {
+  leaveChannel(userID: number, groupID: string, channelID: number) {
+    this.socketService.leaveRoom(userID, groupID, channelID);
+    this.messageSubscription.unsubscribe();
+  }
+
+  sendMessage() {
+    if (this.group && this.message !== '' && this.selected) {
       this.socketService.send(
         this.user.id,
-        this.selected.group._id,
-        this.selected.channel.id,
-        f.value.message
+        this.group._id,
+        this.selected.id,
+        this.message
       );
       this.message = '';
-      // this.groupService
-      //   .addMessage(
-      //     this.selected.group._id,
-      //     this.selected.channel.id,
-      //     this.user.id,
-      //     f.value.message
-      //   )
-      //   .subscribe(
-      //     (response) => {
-      //       if (response.success && this.user && this.selected) {
-      //         this.selected.channel.messages.push({
-      //           user: response.message.user,
-      //           message: response.message.message,
-      //         });
-      //         this.message = '';
-      //       } else {
-      //         alert('Failed to send message');
-      //       }
-      //     },
-      //     (error) => alert('Failed to send message')
-      //   );
     }
   }
 }

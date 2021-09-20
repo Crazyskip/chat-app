@@ -45,6 +45,20 @@ module.exports = function (app, db, ObjectId) {
     res.send({ success: true });
   });
 
+  // Get Channel
+  app.get("/api/group/:groupId/channel/:channelId", async function (req, res) {
+    const groupID = new ObjectId(req.params.groupId);
+
+    const groupsCollection = db.collection("groups");
+    const group = await groupsCollection.findOne({ _id: groupID });
+
+    const channel = group.channels.find(
+      (channel) => channel.id === Number(req.params.channelId)
+    );
+
+    res.send({ channel });
+  });
+
   // Add Channel
   app.post("/api/group/:id/channel", async function (req, res) {
     const groupID = new ObjectId(req.params.id);
@@ -98,21 +112,4 @@ module.exports = function (app, db, ObjectId) {
       res.send({ success: true });
     }
   );
-
-  // Add message
-  // app.post("/api/group/:groupId/channel/:channelId", async function (req, res) {
-  //   const groupID = new ObjectId(req.params.groupId);
-  //   const channelID = Number(req.params.channelId);
-
-  //   const newMessage = { user: req.body.userID, message: req.body.message };
-
-  //   const groupsCollection = db.collection("groups");
-
-  //   await groupsCollection.updateOne(
-  //     { _id: groupID, "channels.id": channelID },
-  //     { $push: { "channels.$.messages": { ...newMessage } } }
-  //   );
-
-  //   res.send({ success: true, message: newMessage });
-  // });
 };

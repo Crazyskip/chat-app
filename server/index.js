@@ -48,11 +48,14 @@ const main = async () => {
     console.log(`User connection ${socket.id}`);
 
     socket.on("joinRoom", ({ userID, groupID, channelID }) => {
+      const userIndex = users.findIndex((user) => user.userID === userID);
+      if (userIndex !== -1) users.splice(userIndex, 1);
+
       const roomName = `${groupID}-${channelID}`;
-      const user = { id: socket.id, userID, room: roomName };
+      const user = { id: socket.id, userID, roomName };
       users.push(user);
 
-      socket.join(user.room);
+      socket.join(user.roomName);
 
       console.log(userID + " joined " + roomName);
     });
@@ -75,7 +78,8 @@ const main = async () => {
         { _id: groupObjectId, "channels.id": channelID },
         { $push: { "channels.$.messages": { user: userID, message } } }
       );
-      io.to(currentUser.room).emit("message", { user: userID, message });
+      console.log(currentUser.roomName, "Message:", { user: userID, message });
+      io.to(currentUser.roomName).emit("message", { user: userID, message });
     });
   });
 };

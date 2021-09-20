@@ -41,6 +41,12 @@ export class GroupService {
     return this.http.post(`${this.groupURL + _id}/channel`, { ...channel });
   }
 
+  getChannel(_id: string, channelId: number): Observable<{ channel: Channel }> {
+    return this.http.get<{ channel: Channel }>(
+      `${this.groupURL + _id}/channel/${channelId}`
+    );
+  }
+
   updateChannel(
     _id: string,
     channelID: number,
