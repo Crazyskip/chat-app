@@ -3,6 +3,7 @@ var cors = require("cors");
 var app = express();
 var http = require("http").Server(app);
 var path = require("path");
+const multer = require("multer");
 const { MongoClient } = require("mongodb");
 const ObjectId = require("mongodb").ObjectId;
 const io = require("socket.io")(http, {
@@ -10,6 +11,17 @@ const io = require("socket.io")(http, {
     origin: "*",
   },
 });
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "images");
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
 
 mongoUrl = "mongodb://localhost:27017";
 const users = [];
@@ -35,7 +47,12 @@ const main = async () => {
   const db = mongoClient.db(dbName);
 
   // Handle backend routes
-  require("./routes/api.js")(app, db, ObjectId);
+  require("./routes/api.js")(app, db, ObjectId, upload);
+
+  app.get("/images/:imageName", (req, res) => {
+    const imageName = req.params.imageName;
+    res.sendFile(path.join(__dirname, `./images/${imageName}`));
+  });
 
   // Handle frontend routes
   app.all("*", function (req, res) {

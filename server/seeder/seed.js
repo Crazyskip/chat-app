@@ -2,12 +2,48 @@ const MongoClient = require("mongodb").MongoClient;
 const url = "mongodb://localhost:27017";
 
 const users = [
-  { id: 1, username: "super", email: "super@gmail.com", role: "super admin" },
-  { id: 2, username: "admin", email: "group@gmail.com", role: "group admin" },
-  { id: 3, username: "user3", email: "user3@gmail.com", role: "member" },
-  { id: 4, username: "user4", email: "user4@gmail.com", role: "member" },
-  { id: 5, username: "user5", email: "user5@gmail.com", role: "member" },
-  { id: 6, username: "user6", email: "user6@gmail.com", role: "member" },
+  {
+    id: 1,
+    username: "super",
+    image: "ef10f1a6efw.jpg",
+    email: "super@gmail.com",
+    role: "super admin",
+  },
+  {
+    id: 2,
+    username: "admin",
+    image: "adK3Vu70DEQ.jpg",
+    email: "group@gmail.com",
+    role: "group admin",
+  },
+  {
+    id: 3,
+    username: "user3",
+    image: "dfc9031c2bo.jpg",
+    email: "user3@gmail.com",
+    role: "member",
+  },
+  {
+    id: 4,
+    username: "user4",
+    image: "IFxjDdqK_0U.jpg",
+    email: "user4@gmail.com",
+    role: "member",
+  },
+  {
+    id: 5,
+    username: "user5",
+    image: "r077pfFsdaU.jpg",
+    email: "user5@gmail.com",
+    role: "member",
+  },
+  {
+    id: 6,
+    username: "user6",
+    image: "xgTMSz6kegE.jpg",
+    email: "user6@gmail.com",
+    role: "member",
+  },
 ];
 
 const groups = [

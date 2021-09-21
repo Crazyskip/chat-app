@@ -24,6 +24,7 @@ export class EditUserComponent implements OnInit {
       .updateUser({
         id: this.user.id,
         username: this.user.username,
+        image: '',
         email: this.user.email,
         role: this.userRole,
       })

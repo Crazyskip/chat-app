@@ -46,6 +46,15 @@ export class MessagingComponent implements OnInit {
     if (groupID) {
       this.groupService.getGroup(groupID).subscribe((response) => {
         if (response.group) {
+          if (
+            !this.isAdmin() &&
+            !response.group.assistants.includes(this.user.id)
+          ) {
+            response.group.channels = response.group.channels.filter(
+              (channel) => channel.members.includes(this.user.id)
+            );
+          }
+
           this.group = response.group;
         } else {
           alert(`Could not find group with id: ${groupID}`);
@@ -104,9 +113,15 @@ export class MessagingComponent implements OnInit {
     }
   }
 
+  getUserName(id: number): string {
+    const user = this.users.find((user) => user.id === id);
+    if (user) return user.username;
+    return 'Unknown';
+  }
+
   getUserImage(id: number): string {
-    // const user = this.users.find((user) => user.id === id);
-    // if (user) return user.image;
+    const user = this.users.find((user) => user.id === id);
+    if (user) return `http://localhost:3000/images/${user.image}`;
     return 'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg';
   }
 }

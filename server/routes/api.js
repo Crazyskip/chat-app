@@ -1,4 +1,4 @@
-module.exports = function (app, db, ObjectId) {
+module.exports = function (app, db, ObjectId, upload) {
   // Get user details
   app.post("/api/auth", async function (req, res) {
     if (!req.body) {
@@ -38,5 +38,5 @@ module.exports = function (app, db, ObjectId) {
 
   /**************** User ****************/
 
-  require("./user.js")(app, db);
+  require("./user.js")(app, db, upload);
 };

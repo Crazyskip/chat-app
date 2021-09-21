@@ -1,17 +1,30 @@
-module.exports = function (app, db) {
+module.exports = function (app, db, upload) {
   // Add user
-  app.post("/api/user", async function (req, res) {
-    const newUser = { ...req.body };
+  app.post(
+    "/api/user",
+    upload.single("profileImage"),
+    async function (req, res) {
+      console.log(req.body);
+      const newUser = {
+        id: Number(req.body.id),
+        username: req.body.username,
+        image: req.file.filename,
+        email: req.body.email,
+        role: req.body.role,
+      };
 
-    const usersCollection = db.collection("users");
-    const user = await usersCollection.findOne({ username: newUser.username });
-    if (!user) {
-      usersCollection.insertOne({ ...newUser });
-      res.send({ user: newUser, err: null });
-    } else {
-      res.send({ user: null, err: "User already exists with that username" });
+      const usersCollection = db.collection("users");
+      const user = await usersCollection.findOne({
+        username: newUser.username,
+      });
+      if (!user) {
+        usersCollection.insertOne({ ...newUser });
+        res.send({ user: newUser, err: null });
+      } else {
+        res.send({ user: null, err: "User already exists with that username" });
+      }
     }
-  });
+  );
 
   // Delete user
   app.delete("/api/user/:id", function (req, res) {

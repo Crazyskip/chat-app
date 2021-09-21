@@ -16,8 +16,8 @@ export class UserService {
     return this.http.get<{ users: User[] }>(this.usersURL);
   }
 
-  addUser(user: User): Observable<{ user: User; err: string }> {
-    return this.http.post<{ user: User; err: string }>(this.userURL, user);
+  addUser(formData: FormData): Observable<{ user: User; err: string }> {
+    return this.http.post<{ user: User; err: string }>(this.userURL, formData);
   }
 
   updateUser(user: User): Observable<{ user: User }> {

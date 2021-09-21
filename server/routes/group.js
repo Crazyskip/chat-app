@@ -26,6 +26,7 @@ module.exports = function (app, db, ObjectId) {
 
     const groupsCollection = db.collection("groups");
     const updatedGroup = req.body;
+    delete updatedGroup._id;
 
     await groupsCollection.updateOne(
       { _id: groupID },
