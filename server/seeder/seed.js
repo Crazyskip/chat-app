@@ -5,6 +5,7 @@ const users = [
   {
     id: 1,
     username: "super",
+    password: "12345",
     image: "ef10f1a6efw.jpg",
     email: "super@gmail.com",
     role: "super admin",
@@ -12,6 +13,7 @@ const users = [
   {
     id: 2,
     username: "admin",
+    password: "12345",
     image: "adK3Vu70DEQ.jpg",
     email: "group@gmail.com",
     role: "group admin",
@@ -19,6 +21,7 @@ const users = [
   {
     id: 3,
     username: "user3",
+    password: "12345",
     image: "dfc9031c2bo.jpg",
     email: "user3@gmail.com",
     role: "member",
@@ -26,6 +29,7 @@ const users = [
   {
     id: 4,
     username: "user4",
+    password: "12345",
     image: "IFxjDdqK_0U.jpg",
     email: "user4@gmail.com",
     role: "member",
@@ -33,6 +37,7 @@ const users = [
   {
     id: 5,
     username: "user5",
+    password: "12345",
     image: "r077pfFsdaU.jpg",
     email: "user5@gmail.com",
     role: "member",
@@ -40,6 +45,7 @@ const users = [
   {
     id: 6,
     username: "user6",
+    password: "12345",
     image: "xgTMSz6kegE.jpg",
     email: "user6@gmail.com",
     role: "member",

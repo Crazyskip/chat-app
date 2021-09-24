@@ -18,18 +18,21 @@ export class AuthService {
     });
   }
 
-  login(username: string): void {
+  login(username: string, password: string): void {
     this.http
       .post<{
         success: boolean;
         user: User;
       }>(this.url, {
         username,
+        password,
       })
       .subscribe((data) => {
         if (data.success) {
           localStorage.setItem('user', JSON.stringify(data.user));
           this.currentUserChange.next(data.user);
+        } else {
+          alert('Username or password does not match');
         }
       });
   }

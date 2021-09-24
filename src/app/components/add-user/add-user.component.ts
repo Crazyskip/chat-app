@@ -31,7 +31,7 @@ export class AddUserComponent implements OnInit {
       alert('User already exists with that username');
     } else {
       const formData = new FormData();
-      if (this.image) {
+      if (this.image && this.username !== '') {
         formData.append('id', `${Math.floor(Math.random() * 10_000_000)}`);
         formData.append('username', this.username);
         formData.append('profileImage', this.image);

@@ -6,11 +6,17 @@ module.exports = function (app, db, ObjectId, upload) {
     }
 
     const username = req.body.username;
+    const password = req.body.password;
 
     const usersCollection = db.collection("users");
 
-    const user = await usersCollection.findOne({ username: username });
-
+    const user = await usersCollection.findOne(
+      {
+        username: username,
+        password: password,
+      },
+      { projection: { password: 0, _id: 0 } }
+    );
     if (user) {
       res.send({ success: true, user });
     } else {

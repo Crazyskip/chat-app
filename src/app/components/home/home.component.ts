@@ -12,12 +12,13 @@ import { User } from '../../user';
 export class HomeComponent implements OnInit {
   user: User | undefined;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {}
 
   login(f: NgForm) {
     const username = f.value.username;
-    this.authService.login(username);
+    const password = f.value.password;
+    this.authService.login(username, password);
   }
 }
