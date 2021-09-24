@@ -8,6 +8,7 @@ module.exports = function (app, db, upload) {
       const newUser = {
         id: Number(req.body.id),
         username: req.body.username,
+        password: req.body.password,
         image: req.file.filename,
         email: req.body.email,
         role: req.body.role,
@@ -17,8 +18,10 @@ module.exports = function (app, db, upload) {
       const user = await usersCollection.findOne({
         username: newUser.username,
       });
+
       if (!user) {
         usersCollection.insertOne({ ...newUser });
+        delete newUser.password;
         res.send({ user: newUser, err: null });
       } else {
         res.send({ user: null, err: "User already exists with that username" });

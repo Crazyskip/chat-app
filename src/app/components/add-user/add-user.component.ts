@@ -12,6 +12,7 @@ export class AddUserComponent implements OnInit {
   @Input() users!: User[];
 
   username: string = '';
+  password: string = '';
   email: string = '';
   role: string = 'member';
   image: File | undefined;
@@ -31,9 +32,10 @@ export class AddUserComponent implements OnInit {
       alert('User already exists with that username');
     } else {
       const formData = new FormData();
-      if (this.image && this.username !== '') {
+      if (this.image && this.username !== '' && this.password !== '') {
         formData.append('id', `${Math.floor(Math.random() * 10_000_000)}`);
         formData.append('username', this.username);
+        formData.append('password', this.password);
         formData.append('profileImage', this.image);
         formData.append('email', this.email);
         formData.append('role', this.role);
@@ -43,6 +45,7 @@ export class AddUserComponent implements OnInit {
           if (response.user) {
             this.users.push(response.user);
             this.username = '';
+            this.password = '';
             this.email = '';
             this.role = 'member';
           } else {

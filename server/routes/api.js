@@ -27,7 +27,10 @@ module.exports = function (app, db, ObjectId, upload) {
   // Get all users
   app.get("/api/users", async function (req, res) {
     const usersCollection = db.collection("users");
-    const users = await usersCollection.find().toArray();
+    const users = await usersCollection
+      .find({}, { projection: { password: 0, _id: 0 } })
+      .toArray();
+    console.log(users);
     res.send({ users });
   });
 
