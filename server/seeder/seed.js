@@ -63,8 +63,18 @@ const groups = [
         name: "general",
         members: [4, 5],
         messages: [
-          { user: 1, message: "Hello from super admin" },
-          { user: 4, message: "Hello super admin" },
+          {
+            user: 1,
+            type: "message",
+            content: "Hello from super admin",
+            sent: new Date(),
+          },
+          {
+            user: 4,
+            type: "message",
+            content: "Hello super admin",
+            sent: new Date(),
+          },
         ],
       },
       {
@@ -72,8 +82,18 @@ const groups = [
         name: "secret",
         members: [4],
         messages: [
-          { user: 1, message: "Hello from super admin" },
-          { user: 4, message: "Hello super admin" },
+          {
+            user: 1,
+            type: "message",
+            content: "Hello from super admin",
+            sent: new Date(),
+          },
+          {
+            user: 4,
+            type: "message",
+            content: "Hello super admin",
+            sent: new Date(),
+          },
         ],
       },
     ],
@@ -86,11 +106,26 @@ const groups = [
       {
         id: 1,
         name: "general",
-        members: [4, 5, 6],
+        members: [3, 4, 5, 6],
         messages: [
-          { user: 1, message: "Welcome to general" },
-          { user: 1, message: "Hello from super admin" },
-          { user: 3, message: "Hello super admin" },
+          {
+            user: 1,
+            type: "message",
+            content: "Welcome to general",
+            sent: new Date(),
+          },
+          {
+            user: 1,
+            type: "message",
+            content: "Hello from super admin",
+            sent: new Date(),
+          },
+          {
+            user: 3,
+            type: "message",
+            content: "Hello super admin",
+            sent: new Date(),
+          },
         ],
       },
       {
@@ -98,9 +133,24 @@ const groups = [
         name: "assignment",
         members: [4, 6],
         messages: [
-          { user: 1, message: "Hello from super admin" },
-          { user: 4, message: "Hello super admin" },
-          { user: 6, message: "I am user 6" },
+          {
+            user: 1,
+            type: "message",
+            content: "Hello from super admin",
+            sent: new Date(),
+          },
+          {
+            user: 4,
+            type: "message",
+            content: "Hello super admin",
+            sent: new Date(),
+          },
+          {
+            user: 6,
+            type: "message",
+            content: "I am user 6",
+            sent: new Date(),
+          },
         ],
       },
     ],

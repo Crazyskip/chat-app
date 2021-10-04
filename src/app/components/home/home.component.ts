@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../user';
 
@@ -11,8 +11,11 @@ import { User } from '../../user';
 })
 export class HomeComponent implements OnInit {
   user: User | undefined;
+  title = 'Login';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private titleService: Title) {
+    this.titleService.setTitle(this.title);
+  }
 
   ngOnInit(): void {}
 

@@ -31,8 +31,10 @@ export class SocketService {
 
   public onMessage(): Observable<any> {
     let observable = new Observable((observer) => {
-      this.socket.on('message', (data: { user: number; message: string }) =>
-        observer.next(data)
+      this.socket.on(
+        'message',
+        (data: { user: number; message: string; date: Date }) =>
+          observer.next(data)
       );
     });
     return observable;

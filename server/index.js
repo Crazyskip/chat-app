@@ -64,7 +64,7 @@ const main = async () => {
   io.on("connection", (socket) => {
     console.log(`User connection ${socket.id}`);
 
-    socket.on("joinRoom", ({ userID, groupID, channelID }) => {
+    socket.on("joinRoom", async ({ userID, groupID, channelID }) => {
       const userIndex = users.findIndex((user) => user.userID === userID);
       if (userIndex !== -1) users.splice(userIndex, 1);
 
@@ -74,16 +74,59 @@ const main = async () => {
 
       socket.join(user.roomName);
 
+      const groupsCollection = db.collection("groups");
+      const groupObjectId = new ObjectId(groupID);
+
+      const joinMessage = {
+        user: userID,
+        type: "join/leave",
+        content: "Joined the channel",
+        sent: new Date(),
+      };
+
+      await groupsCollection.updateOne(
+        { _id: groupObjectId, "channels.id": channelID },
+        {
+          $push: {
+            "channels.$.messages": { ...joinMessage },
+          },
+        }
+      );
+
+      io.to(roomName).emit("message", { ...joinMessage });
+
       console.log(userID + " joined " + roomName);
     });
 
-    socket.on("leaveRoom", ({ userID, groupID, channelID }) => {
+    socket.on("leaveRoom", async ({ userID, groupID, channelID }) => {
       const roomName = `${groupID}-${channelID}`;
       const userIndex = users.findIndex((user) => user.userID === userID);
       if (userIndex !== -1) {
         users.splice(userIndex, 1);
       }
+
       socket.leave(roomName);
+
+      const groupsCollection = db.collection("groups");
+      const groupObjectId = new ObjectId(groupID);
+
+      const leaveMessage = {
+        user: userID,
+        type: "join/leave",
+        content: "Left the channel",
+        sent: new Date(),
+      };
+
+      await groupsCollection.updateOne(
+        { _id: groupObjectId, "channels.id": channelID },
+        {
+          $push: {
+            "channels.$.messages": { ...leaveMessage },
+          },
+        }
+      );
+
+      io.to(roomName).emit("message", { ...leaveMessage });
     });
 
     socket.on("message", async ({ userID, groupID, channelID, message }) => {
@@ -91,12 +134,22 @@ const main = async () => {
       const groupsCollection = db.collection("groups");
       const groupObjectId = new ObjectId(groupID);
 
+      const newMessage = {
+        user: userID,
+        type: "message",
+        content: message,
+        sent: new Date(),
+      };
+
       await groupsCollection.updateOne(
         { _id: groupObjectId, "channels.id": channelID },
-        { $push: { "channels.$.messages": { user: userID, message } } }
+        {
+          $push: {
+            "channels.$.messages": { ...newMessage },
+          },
+        }
       );
-      console.log(currentUser.roomName, "Message:", { user: userID, message });
-      io.to(currentUser.roomName).emit("message", { user: userID, message });
+      io.to(currentUser.roomName).emit("message", { ...newMessage });
     });
   });
 };

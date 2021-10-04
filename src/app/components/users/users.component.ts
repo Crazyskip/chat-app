@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../user';
 import { UserService } from '../../services/user.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-users',
@@ -17,8 +18,10 @@ export class UsersComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle('Users');
     this.currentUser = this.authService.getUser();
     if (!this.currentUser) this.router.navigateByUrl('/home');
     if (!this.authService.isSuperAdmin()) this.router.navigateByUrl('/groups');

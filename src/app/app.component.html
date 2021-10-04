@@ -11,7 +11,7 @@
       <a *ngIf="isSuperAdmin()" routerLink="/users"
         class="text-xl text-gray-50 font-semibold mr-8 hover:text-gray-400">Users
       </a>
-      <a routerLink="/profile" class="text-xl text-gray-50 font-semibold mr-8 hover:text-gray-400">Profile
+      <a *ngIf="user" routerLink="/profile" class="text-xl text-gray-50 font-semibold mr-8 hover:text-gray-400">Profile
       </a>
     </div>
     <button *ngIf="user" (click)="logout()"

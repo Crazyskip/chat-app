@@ -16,14 +16,21 @@
   <div class="messages-container">
     <div *ngIf="selected" class="messages flex flex-col-reverse overflow-y-scroll pb-2">
       <div *ngFor="let message of getReversedMessages(selected.messages)" class="py-1 w-full">
-        <span [ngClass]="{'float-right flex-row-reverse': user.id === message.user}" class="flex items-center">
+        <span *ngIf="message.type === 'message'; else joinleaveBlock"
+          [ngClass]="{'float-right flex-row-reverse': user.id === message.user}" class="flex items-center message">
           <img src={{getUserImage(message.user)}} height="30" width="30"
             class="rounded-full w-11 h-11 object-cover mx-2 mt-4" />
           <div class="flex flex-col">
             <span class="text-sm text-gray-500">{{getUserName(message.user)}}</span>
-            <span class="border rounded px-4 py-2">{{message.message}}</span>
+            <span class="border rounded px-4 py-2">{{message.content}}</span>
+            <span class="text-xs text-gray-500">{{parseDate(message.sent)}}</span>
           </div>
         </span>
+        <ng-template #joinleaveBlock>
+          <span class="text-gray-600 text-sm pl-2">
+            {{getUserName(message.user)}} - <span class="italic">{{message.content}}</span>
+            {{parseDate(message.sent)}}</span>
+        </ng-template>
       </div>
     </div>
     <form *ngIf="selected" class="flex">

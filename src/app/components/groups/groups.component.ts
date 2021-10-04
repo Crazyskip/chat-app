@@ -5,6 +5,7 @@ import { User } from '../../user';
 import { Group } from '../../group';
 import { Channel } from '../../channel';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-groups',
@@ -20,8 +21,10 @@ export class GroupsComponent implements OnInit {
   constructor(
     private router: Router,
     private groupService: GroupService,
-    private authService: AuthService
+    private authService: AuthService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle('Groups');
     this.user = this.authService.getUser();
   }
 

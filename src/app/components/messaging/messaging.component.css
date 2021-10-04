@@ -15,3 +15,7 @@
 .text-black {
   color: #000;
 }
+
+.message {
+  max-width: 60%;
+}

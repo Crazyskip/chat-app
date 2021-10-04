@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { GroupService } from '../../services/group.service';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../user';
@@ -9,19 +9,21 @@ import { Message } from '../../message';
 import { SocketService } from 'src/app/services/socket.service';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
   styleUrls: ['./messaging.component.css'],
 })
-export class MessagingComponent implements OnInit {
+export class MessagingComponent implements OnInit, OnDestroy {
   user: User;
   users: User[] = [];
   group: Group | undefined;
   message: string = '';
   selected: Channel | undefined;
   messageSubscription: Subscription = new Subscription();
+  joinleaveSubscription: Subscription = new Subscription();
 
   constructor(
     private router: Router,
@@ -29,8 +31,10 @@ export class MessagingComponent implements OnInit {
     private groupService: GroupService,
     private authService: AuthService,
     private userService: UserService,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private titleService: Title
   ) {
+    this.titleService.setTitle('Messenger');
     this.user = this.authService.getUser();
   }
 
@@ -39,6 +43,14 @@ export class MessagingComponent implements OnInit {
     this.userService.getUsers().subscribe((response) => {
       this.users = response.users;
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.group) {
+      if (this.selected) {
+        this.leaveChannel(this.user.id, this.group._id, this.selected.id);
+      }
+    }
   }
 
   private getGroup(): void {
@@ -83,6 +95,17 @@ export class MessagingComponent implements OnInit {
     }
   }
 
+  parseDate(dateString: string) {
+    const date = new Date(dateString);
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    return date.toLocaleString(undefined, { hour12: false });
+  }
+
   getReversedMessages(messages: Message[]) {
     return [...messages].reverse();
   }
@@ -99,6 +122,7 @@ export class MessagingComponent implements OnInit {
   leaveChannel(userID: number, groupID: string, channelID: number) {
     this.socketService.leaveRoom(userID, groupID, channelID);
     this.messageSubscription.unsubscribe();
+    this.joinleaveSubscription.unsubscribe();
   }
 
   sendMessage() {
