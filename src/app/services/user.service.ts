@@ -20,8 +20,8 @@ export class UserService {
     return this.http.post<{ user: User; err: string }>(this.userURL, formData);
   }
 
-  updateUser(user: User): Observable<{ user: User }> {
-    return this.http.put<{ user: User }>(this.userURL + user.id, user);
+  updateUser(user: User): Observable<{ success: boolean }> {
+    return this.http.put<{ success: boolean }>(this.userURL + user.id, user);
   }
 
   deleteUser(id: number): Observable<{ success: boolean }> {

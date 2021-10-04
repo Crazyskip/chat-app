@@ -45,9 +45,11 @@ module.exports = function (app, db, upload) {
 
     const updatedUser = { ...req.body };
 
+    console.log(updatedUser);
+
     const usersCollection = db.collection("users");
     usersCollection.updateOne({ id: userID }, { $set: { ...updatedUser } });
 
-    res.send({ user: updatedUser });
+    res.send({ success: true });
   });
 };

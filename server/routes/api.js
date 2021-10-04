@@ -30,7 +30,6 @@ module.exports = function (app, db, ObjectId, upload) {
     const users = await usersCollection
       .find({}, { projection: { password: 0, _id: 0 } })
       .toArray();
-    console.log(users);
     res.send({ users });
   });
 

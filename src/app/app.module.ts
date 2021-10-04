@@ -15,6 +15,7 @@ import { UsersComponent } from './components/users/users.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { MessagingComponent } from './components/messaging/messaging.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { MessagingComponent } from './components/messaging/messaging.component';
     EditUserComponent,
     AddUserComponent,
     MessagingComponent,
+    ProfileComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],
