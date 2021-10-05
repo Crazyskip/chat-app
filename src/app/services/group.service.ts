@@ -37,8 +37,11 @@ export class GroupService {
     return this.http.delete<{ success: boolean }>(this.groupURL + _id);
   }
 
-  addChannel(_id: string, channel: Channel) {
-    return this.http.post(`${this.groupURL + _id}/channel`, { ...channel });
+  addChannel(_id: string, channel: Channel): Observable<{ success: boolean }> {
+    return this.http.post<{ success: boolean }>(
+      `${this.groupURL + _id}/channel`,
+      { ...channel }
+    );
   }
 
   getChannel(_id: string, channelId: number): Observable<{ channel: Channel }> {

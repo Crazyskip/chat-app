@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Group } from '../../group';
 import { GroupService } from '../../services/group.service';
 import { User } from '../../user';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-edit-group',
@@ -12,18 +13,18 @@ import { User } from '../../user';
 })
 export class EditGroupComponent implements OnInit {
   user: User | undefined;
+  assistants: any[] = [];
+  members: any[] = [];
 
   group!: Group;
-
   groupName: string = '';
-  groupAssistants: string = '';
-  groupMembers: string = '';
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private groupService: GroupService,
-    private authService: AuthService
+    private authService: AuthService,
+    private userService: UserService
   ) {
     this.user = this.authService.getUser();
   }
@@ -37,40 +38,61 @@ export class EditGroupComponent implements OnInit {
     this.groupService.getGroup(id).subscribe((response) => {
       this.group = response.group;
       this.groupName = this.group.name;
-      this.groupAssistants = this.group.assistants.join(',');
-      this.groupMembers = this.group.members.join(',');
       if (!this.isAuthorised()) this.router.navigateByUrl('/groups');
+      if (this.group) this.getUsers();
+    });
+  }
+
+  getUsers() {
+    this.userService.getUsers().subscribe((response) => {
+      if (response.users) {
+        response.users.forEach((user) => {
+          if (user.role !== 'super admin' && user.role !== 'group admin') {
+            this.assistants.push({
+              ...user,
+              selected: this.group.assistants.includes(user.id),
+            });
+            this.members.push({
+              ...user,
+              selected: this.group.members.includes(user.id),
+            });
+          }
+        });
+      }
     });
   }
 
   updateGroup() {
     if (this.group.name !== '') {
-      const assistantsList = this.groupAssistants
-        .split(',')
-        .map((assistant) => Number(assistant));
+      const assistantIds: number[] = [];
+      const memberIds: number[] = [];
+      this.assistants.forEach((assistant) => {
+        if (assistant.selected) assistantIds.push(assistant.id);
+      });
+      this.members.forEach((member) => {
+        if (member.selected) memberIds.push(member.id);
+      });
 
-      const membersList = this.groupMembers
-        .split(',')
-        .map((member) => Number(member));
+      const updatedGroup = {
+        _id: this.group._id,
+        name: this.groupName,
+        assistants: assistantIds,
+        members: memberIds,
+        channels: this.group.channels,
+      };
 
-      this.groupService
-        .updateGroup({
-          _id: this.group._id,
-          name: this.groupName,
-          assistants: assistantsList,
-          members: membersList,
-          channels: this.group.channels,
-        })
-        .subscribe(
-          (response) => {
-            if (response.group) {
-              this.group = response.group;
-            }
-          },
-          (error) => {
-            alert('failed to update group');
+      this.groupService.updateGroup(updatedGroup).subscribe(
+        (response) => {
+          if (response.group) {
+            this.group = { ...updatedGroup };
+            alert('Updated Group');
+            location.reload();
           }
-        );
+        },
+        (error) => {
+          alert('failed to update group');
+        }
+      );
     }
   }
 

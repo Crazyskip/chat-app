@@ -3,7 +3,9 @@
     <a routerLink="/groups/{{group._id}}" class="text-2xl text-black font-semibold">{{group.name}}</a>
     <span *ngIf="canEditGroup(group)">
       <button (click)="routeEditGroup(group._id)" class="mx-2 text-green-600">Edit</button>
-      <button (click)="deleteGroup(group._id)" class="text-red-600">Delete</button>
+    </span>
+    <span *ngIf="isAdmin()">
+      <button (click)=" deleteGroup(group._id)" class="text-red-600">Delete</button>
     </span>
   </div>
 </div>

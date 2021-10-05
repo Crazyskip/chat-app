@@ -7,30 +7,39 @@
           Group Name
         </label>
         <input name="groupName" id="groupName" [(ngModel)]="groupName" autocomplete="off"
-          class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text" placeholder="Group Name" />
+          class="shadow border rounded w-full py-2 px-3 text-grey-darker" type="text" placeholder="Group Name" />
       </div>
 
-      <div>
-        <label class="block text-grey-darker text-sm font-bold" for="groupAssistants">
-          Group Assistants
-        </label>
-        <input name="groupAssistants" id="groupAssistants" [(ngModel)]="groupAssistants" autocomplete="off"
-          class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text"
-          placeholder="Group Assistants" />
-      </div>
+      <div class="flex">
+        <div class="mt-4 w-6/12">
+          <label class="block text-grey-darker text-sm font-bold" for="groupAssistants">
+            Group Assistants
+          </label>
+          <div class="border p-2">
+            <label class="btn btn-outline-secondary" *ngFor="let user of assistants">
+              <div>
+                <input type="checkbox" [(ngModel)]="user.selected"> {{user.id}} - {{user.username}}
+              </div>
+            </label>
+          </div>
+        </div>
 
-      <div>
-        <label class="block text-grey-darker text-sm font-bold" for="groupMembers">
-          Group Members
-        </label>
-        <input name="groupMembers" id="groupMembers" [(ngModel)]="groupMembers" autocomplete="off"
-          class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text"
-          placeholder="Group Members" />
+        <div class="mt-4 w-6/12">
+          <label class="block text-grey-darker text-sm font-bold" for="groupMembers">
+            Group Members
+          </label>
+          <div class="border p-2">
+            <label class="btn btn-outline-secondary" *ngFor="let user of members">
+              <div>
+                <input type="checkbox" [(ngModel)]="user.selected"> {{user.id}} - {{user.username}}
+              </div>
+            </label>
+          </div>
+        </div>
       </div>
 
       <button type="submit" (click)="addGroup()"
-        class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 my-2 rounded">Add Group</button>
+        class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 mt-4 rounded">Add Group</button>
     </div>
-    <hr />
   </div>
 </div>

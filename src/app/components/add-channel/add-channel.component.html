@@ -14,8 +14,13 @@
       <label class="block text-grey-darker text-sm font-bold" for="members">
         Members
       </label>
-      <input name="members" id="members" [(ngModel)]="members" autocomplete="off"
-        class="shadow border rounded w-full py-2 px-3 my-2 text-grey-darker" type="text" placeholder="Members" />
+      <div class="border p-2">
+        <label class="btn btn-outline-secondary" *ngFor="let user of members">
+          <div>
+            <input type="checkbox" [(ngModel)]="user.selected"> {{user.id}} - {{user.username}}
+          </div>
+        </label>
+      </div>
     </div>
 
     <button type="submit" (click)="addChannel()"

@@ -106,7 +106,7 @@ const groups = [
       {
         id: 1,
         name: "general",
-        members: [3, 4, 5, 6],
+        members: [3, 5, 6],
         messages: [
           {
             user: 1,
@@ -131,7 +131,7 @@ const groups = [
       {
         id: 2,
         name: "assignment",
-        members: [4, 6],
+        members: [3, 6],
         messages: [
           {
             user: 1,
