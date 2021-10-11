@@ -1,4 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AddChannelComponent } from './add-channel.component';
 
@@ -8,9 +10,9 @@ describe('AddChannelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddChannelComponent ]
-    })
-    .compileComponents();
+      imports: [RouterTestingModule, HttpClientModule],
+      declarations: [AddChannelComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

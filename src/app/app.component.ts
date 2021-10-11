@@ -28,7 +28,7 @@ export class AppComponent {
     if (this.location.path() === '/home' && this.user) {
       this.router.navigateByUrl('/groups');
     } else if (this.location.path() !== '/home' && !this.user) {
-      this.router.navigateByUrl('/home');
+      this.router.navigateByUrl('/');
     }
   }
 

@@ -9,7 +9,6 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { UsersComponent } from './components/users/users.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'groups', component: GroupsComponent },
   { path: 'groups/add', component: AddGroupComponent },
@@ -17,6 +16,7 @@ const routes: Routes = [
   { path: 'groups/edit/:id', component: EditGroupComponent },
   { path: 'users', component: UsersComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -23,11 +23,11 @@ export class UsersComponent implements OnInit {
   ) {
     this.titleService.setTitle('Users');
     this.currentUser = this.authService.getUser();
-    if (!this.currentUser) this.router.navigateByUrl('/home');
-    if (!this.authService.isSuperAdmin()) this.router.navigateByUrl('/groups');
   }
 
   ngOnInit(): void {
+    if (!this.currentUser) this.router.navigateByUrl('/home');
+    if (!this.authService.isSuperAdmin()) this.router.navigateByUrl('/groups');
     this.getUsers();
   }
 
