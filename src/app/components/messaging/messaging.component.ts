@@ -62,6 +62,9 @@ export class MessagingComponent implements OnInit, OnDestroy {
             !this.isAdmin() &&
             !response.group.assistants.includes(this.user.id)
           ) {
+            if (!response.group.members.includes(this.user.id)) {
+              this.router.navigateByUrl('/groups');
+            }
             response.group.channels = response.group.channels.filter(
               (channel) => channel.members.includes(this.user.id)
             );

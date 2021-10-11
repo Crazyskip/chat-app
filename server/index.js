@@ -155,3 +155,8 @@ const main = async () => {
 };
 
 main();
+
+module.exports = {
+  app,
+  mongoClient,
+};

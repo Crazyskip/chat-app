@@ -33,17 +33,26 @@ module.exports = function (app, db, ObjectId) {
       { $set: { ...updatedGroup } }
     );
 
-    res.send({ group: updatedGroup });
+    const newGroup = await groupsCollection.findOne({ _id: groupID });
+
+    res.send({ group: newGroup });
   });
 
   // Delete Group
   app.delete("/api/group/:id", async function (req, res) {
-    const groupID = new ObjectId(req.params.id);
+    try {
+      groupID = new ObjectId(req.params.id);
+      const groupsCollection = db.collection("groups");
+      const result = await groupsCollection.deleteOne({ _id: groupID });
 
-    const groupsCollection = db.collection("groups");
-    await groupsCollection.deleteOne({ _id: groupID });
-
-    res.send({ success: true });
+      if (result.deletedCount === 1) {
+        res.send({ success: true });
+      } else {
+        res.send({ success: false });
+      }
+    } catch (error) {
+      res.send({ success: false });
+    }
   });
 
   // Get Channel
@@ -62,17 +71,29 @@ module.exports = function (app, db, ObjectId) {
 
   // Add Channel
   app.post("/api/group/:id/channel", async function (req, res) {
-    const groupID = new ObjectId(req.params.id);
+    try {
+      const groupID = new ObjectId(req.params.id);
+      const newChannel = req.body;
 
-    const newChannel = req.body;
+      const groupsCollection = db.collection("groups");
+      await groupsCollection.updateOne(
+        { _id: groupID },
+        { $push: { channels: { ...newChannel } } }
+      );
 
-    const groupsCollection = db.collection("groups");
-    await groupsCollection.updateOne(
-      { _id: groupID },
-      { $push: { channels: { ...newChannel } } }
-    );
+      const group = await groupsCollection.findOne({ _id: groupID });
+      const channel = group.channels.find(
+        (channel) => channel.id === newChannel.id
+      );
 
-    res.send({ success: true });
+      if (channel) {
+        res.send({ success: true, channel });
+      } else {
+        res.send({ success: false });
+      }
+    } catch (error) {
+      res.send({ success: false });
+    }
   });
 
   // Update Channel
@@ -94,7 +115,13 @@ module.exports = function (app, db, ObjectId) {
       }
     );
 
-    res.send({ success: true });
+    const group = await groupsCollection.findOne({ _id: groupID });
+
+    const channel = group.channels.find(
+      (channel) => channel.id === Number(req.params.channelId)
+    );
+
+    res.send({ channel: channel, success: true });
   });
 
   // Delete Channel
@@ -105,12 +132,16 @@ module.exports = function (app, db, ObjectId) {
       const channelID = Number(req.params.channelId);
 
       const groupsCollection = db.collection("groups");
-      await groupsCollection.updateOne(
+      const result = await groupsCollection.updateOne(
         { _id: groupID },
         { $pull: { channels: { id: channelID } } }
       );
 
-      res.send({ success: true });
+      if (result.modifiedCount === 1) {
+        res.send({ success: true });
+      } else {
+        res.send({ success: false });
+      }
     }
   );
 };

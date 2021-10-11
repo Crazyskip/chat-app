@@ -20,7 +20,7 @@ module.exports = function (app, db, ObjectId, upload) {
     if (user) {
       res.send({ success: true, user });
     } else {
-      res.send({ success: false, errors: {} });
+      res.send({ success: false });
     }
   });
 

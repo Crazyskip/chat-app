@@ -14,3 +14,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 ## Build
 
 In server directory run `npm run start`. This will build the frontend angular application and start the backend server and serve the frontend application on `http://localhost:3000`.
+
+## Test
+
+In server directory run `npm run test`.

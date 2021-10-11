@@ -4,7 +4,6 @@ module.exports = function (app, db, upload) {
     "/api/user",
     upload.single("profileImage"),
     async function (req, res) {
-      console.log(req.body);
       const newUser = {
         id: Number(req.body.id),
         username: req.body.username,
