@@ -5,6 +5,7 @@ import { Group } from '../../group';
 import { GroupService } from '../../services/group.service';
 import { User } from '../../user';
 import { UserService } from 'src/app/services/user.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-group',
@@ -24,8 +25,12 @@ export class EditGroupComponent implements OnInit {
     private route: ActivatedRoute,
     private groupService: GroupService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private titleService: Title
   ) {
+    // Set title of page
+    this.titleService.setTitle('Edit Group');
+
     this.user = this.authService.getUser();
   }
 
@@ -33,6 +38,7 @@ export class EditGroupComponent implements OnInit {
     this.getGroup();
   }
 
+  // Get group by id from params
   getGroup() {
     const id = String(this.route.snapshot.paramMap.get('id'));
     this.groupService.getGroup(id).subscribe((response) => {
@@ -96,6 +102,7 @@ export class EditGroupComponent implements OnInit {
     }
   }
 
+  // Returns if user can edit group
   isAuthorised(): boolean {
     if (this.user && this.group) {
       if (

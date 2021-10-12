@@ -35,6 +35,7 @@ export class EditUserComponent implements OnInit {
   deleteUser() {
     this.userService.deleteUser(this.user.id).subscribe(
       (response) => {
+        // If deleted remove user from user list
         if (response.success) {
           const userIndex = this.users.findIndex(
             (user) => user.id === this.user.id

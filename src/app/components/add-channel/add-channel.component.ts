@@ -30,6 +30,7 @@ export class AddChannelComponent implements OnInit {
     });
   }
 
+  // Sends add channel
   addChannel() {
     if (this.channelName !== '') {
       const memberIds: number[] = [];
@@ -46,8 +47,10 @@ export class AddChannelComponent implements OnInit {
 
       this.groupService.addChannel(this.group._id, newChannel).subscribe(
         (response) => {
+          // If added append channel to group channels
           if (response.success) {
             this.group.channels.push({ ...newChannel });
+            // Deselect all members
             this.members.forEach((member) => {
               if (member.selected) member.selected = false;
             });

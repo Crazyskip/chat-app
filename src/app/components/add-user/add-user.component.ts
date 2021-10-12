@@ -28,12 +28,14 @@ export class AddUserComponent implements OnInit {
   }
 
   addUser() {
+    // Check if username already exists
     if (this.users.find((user) => user.username === this.username)) {
       alert('User already exists with that username');
     } else {
       const formData = new FormData();
       if (this.image && this.username !== '' && this.password !== '') {
-        formData.append('id', `${Math.floor(Math.random() * 10_000_000)}`);
+        // Add form data
+        formData.append('id', `${Math.floor(Math.random() * 10_000)}`);
         formData.append('username', this.username);
         formData.append('password', this.password);
         formData.append('profileImage', this.image);
@@ -42,6 +44,7 @@ export class AddUserComponent implements OnInit {
       }
       this.userService.addUser(formData).subscribe(
         (response) => {
+          // If added clear entered data
           if (response.user) {
             this.users.push(response.user);
             this.username = '';

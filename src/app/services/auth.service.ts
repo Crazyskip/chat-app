@@ -18,6 +18,7 @@ export class AuthService {
     });
   }
 
+  // Sends login data to server
   login(username: string, password: string): void {
     this.http
       .post<{
@@ -28,6 +29,7 @@ export class AuthService {
         password,
       })
       .subscribe((data) => {
+        // If correct store user data in local Storage and update subscription
         if (data.success) {
           localStorage.setItem('user', JSON.stringify(data.user));
           this.currentUserChange.next(data.user);
@@ -37,11 +39,13 @@ export class AuthService {
       });
   }
 
+  // Clears user from local storage and update subscription
   logout(): void {
     localStorage.removeItem('user');
     this.currentUserChange.next(undefined);
   }
 
+  // Check if user is in local storage and update subscription
   checkLogin(): void {
     const userString = localStorage.getItem('user');
     if (userString) {
@@ -55,6 +59,7 @@ export class AuthService {
     return this.currentUser;
   }
 
+  // Returns if current user is super admin or group admin
   isAdmin(): boolean {
     if (this.currentUser) {
       const adminStrings = ['super admin', 'group admin'];
@@ -63,6 +68,7 @@ export class AuthService {
     return false;
   }
 
+  // Returns if current user is super admin
   isSuperAdmin(): boolean {
     if (this.currentUser) {
       return this.currentUser.role === 'super admin';

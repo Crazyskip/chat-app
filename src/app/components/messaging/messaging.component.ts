@@ -46,6 +46,7 @@ export class MessagingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    // Leave channel on component destroy
     if (this.group) {
       if (this.selected) {
         this.leaveChannel(this.user.id, this.group._id, this.selected.id);
@@ -54,10 +55,13 @@ export class MessagingComponent implements OnInit, OnDestroy {
   }
 
   private getGroup(): void {
+    // Get groupID from params
     const groupID = this.route.snapshot.paramMap.get('id');
     if (groupID) {
       this.groupService.getGroup(groupID).subscribe((response) => {
+        // If group exists
         if (response.group) {
+          // If is not admin or assistant filter channels if user is member
           if (
             !this.isAdmin() &&
             !response.group.assistants.includes(this.user.id)
@@ -72,6 +76,7 @@ export class MessagingComponent implements OnInit, OnDestroy {
 
           this.group = response.group;
         } else {
+          // If group not found route back to groups
           alert(`Could not find group with id: ${groupID}`);
           this.router.navigateByUrl('/groups');
         }
@@ -83,6 +88,7 @@ export class MessagingComponent implements OnInit, OnDestroy {
     return this.authService.isAdmin();
   }
 
+  // Sets selected value when user changes channel selection
   handleSelect(channel: Channel) {
     if (this.group) {
       if (this.selected) {
@@ -98,21 +104,18 @@ export class MessagingComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Parse datestring to dd/mm/yyyy, hh:mm:ss
   parseDate(dateString: string) {
     const date = new Date(dateString);
-    const options = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
     return date.toLocaleString(undefined, { hour12: false });
   }
 
+  // Returns reversed messages to display messages bottom to top
   getReversedMessages(messages: Message[]) {
     return [...messages].reverse();
   }
 
+  // Join sockets room
   joinChannel(userID: number, groupID: string, channelID: number) {
     this.socketService.joinRoom(userID, groupID, channelID);
     this.messageSubscription = this.socketService
@@ -122,12 +125,14 @@ export class MessagingComponent implements OnInit, OnDestroy {
       });
   }
 
+  // Leave sockets room
   leaveChannel(userID: number, groupID: string, channelID: number) {
     this.socketService.leaveRoom(userID, groupID, channelID);
     this.messageSubscription.unsubscribe();
     this.joinleaveSubscription.unsubscribe();
   }
 
+  // Sends message to sockets
   sendMessage() {
     if (this.group && this.message !== '' && this.selected) {
       this.socketService.send(
@@ -140,12 +145,14 @@ export class MessagingComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Returns username of user by id
   getUserName(id: number): string {
     const user = this.users.find((user) => user.id === id);
     if (user) return user.username;
     return 'Unknown';
   }
 
+  // Returns image of user by id
   getUserImage(id: number): string {
     const user = this.users.find((user) => user.id === id);
     if (user) return `http://localhost:3000/images/${user.image}`;

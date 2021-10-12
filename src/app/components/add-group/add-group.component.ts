@@ -5,6 +5,7 @@ import { Group } from '../../group';
 import { GroupService } from '../../services/group.service';
 import { User } from '../../user';
 import { UserService } from 'src/app/services/user.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-add-group',
@@ -25,14 +26,22 @@ export class AddGroupComponent implements OnInit {
     private router: Router,
     private groupService: GroupService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private titleService: Title
   ) {
+    // Set title of page
+    this.titleService.setTitle('Add Group');
+
     this.user = this.authService.getUser();
     if (!this.user) this.router.navigateByUrl('/home');
     if (!this.authService.isAdmin()) this.router.navigateByUrl('/groups');
   }
 
   ngOnInit(): void {
+    this.getUsers();
+  }
+
+  getUsers() {
     this.userService.getUsers().subscribe((response) => {
       if (response.users) {
         this.users = response.users;
@@ -46,6 +55,7 @@ export class AddGroupComponent implements OnInit {
     });
   }
 
+  // Sends add group
   addGroup() {
     if (this.groupName !== '') {
       const assistantIds: number[] = [];
@@ -67,6 +77,7 @@ export class AddGroupComponent implements OnInit {
 
       this.groupService.addGroup(newGroup).subscribe(
         (response) => {
+          // If added clear all data entered
           if (response.group) {
             this.groupName = '';
             this.assistants.forEach((assistant) => {

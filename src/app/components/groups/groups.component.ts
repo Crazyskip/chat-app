@@ -24,7 +24,9 @@ export class GroupsComponent implements OnInit {
     private authService: AuthService,
     private titleService: Title
   ) {
+    // Set title of page
     this.titleService.setTitle('Groups');
+
     this.user = this.authService.getUser();
   }
 
@@ -51,6 +53,7 @@ export class GroupsComponent implements OnInit {
   deleteGroup(_id: string) {
     this.groupService.deleteGroup(_id).subscribe(
       (response) => {
+        // If deleted remove group from list
         if (response.success) {
           const groupIndex = this.groups.findIndex(
             (group) => group._id === _id
@@ -71,6 +74,7 @@ export class GroupsComponent implements OnInit {
     return this.authService.isAdmin();
   }
 
+  // Returns if current user can edit group
   canEditGroup(group: Group): boolean {
     if (this.authService.isAdmin() || group.assistants.includes(this.user.id)) {
       return true;
@@ -78,6 +82,7 @@ export class GroupsComponent implements OnInit {
     return false;
   }
 
+  // Routes to selected group
   routeEditGroup(_id: string) {
     this.router.navigateByUrl('/groups/edit/' + _id);
   }

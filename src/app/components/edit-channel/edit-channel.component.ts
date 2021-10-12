@@ -23,6 +23,12 @@ export class EditChannelComponent implements OnInit {
 
   ngOnInit(): void {
     this.channelName = this.channel.name;
+
+    this.getUsers();
+  }
+
+  // Gets list of all users in group
+  getUsers() {
     this.userService.getUsers().subscribe((response) => {
       if (response.users) {
         response.users.forEach((user) => {
@@ -36,6 +42,7 @@ export class EditChannelComponent implements OnInit {
     });
   }
 
+  // Sends update channel details
   updateChannel() {
     if (this.channelName !== '') {
       const memberIds: number[] = [];
@@ -61,10 +68,11 @@ export class EditChannelComponent implements OnInit {
     }
   }
 
+  // Sends delete channel
   deleteChannel() {
     this.groupService.deleteChannel(this.group._id, this.channel.id).subscribe(
+      // If deleted remove channel from group
       (response) => {
-        console.log(response);
         const channelIndex = this.group.channels.findIndex(
           (channel) => channel.id === this.channel.id
         );

@@ -17,13 +17,16 @@ export class AppComponent {
     private authService: AuthService,
     private location: Location
   ) {
+    // Subscribe to user value
     this.authService.currentUserChange.subscribe((value) => {
       this.user = value;
       this.handleRouting();
     });
+    // Update current user value
     this.authService.checkLogin();
   }
 
+  // Check if user allowed on current page
   private handleRouting(): void {
     if (this.location.path() === '/home' && this.user) {
       this.router.navigateByUrl('/groups');

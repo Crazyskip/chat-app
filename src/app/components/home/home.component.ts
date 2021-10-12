@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   title = 'Login';
 
   constructor(private authService: AuthService, private titleService: Title) {
+    // Set Title of page
     this.titleService.setTitle(this.title);
   }
 

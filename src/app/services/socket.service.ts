@@ -12,14 +12,17 @@ export class SocketService {
 
   constructor() {}
 
+  // Joins socket room
   public joinRoom(userID: number, groupID: string, channelID: number): void {
     this.socket.emit('joinRoom', { userID, groupID, channelID });
   }
 
+  // Leaves socket room
   public leaveRoom(userID: number, groupID: string, channelID: number): void {
     this.socket.emit('leaveRoom', { userID, groupID, channelID });
   }
 
+  // Send message to sockets
   public send(
     userID: number,
     groupID: string,
@@ -29,6 +32,7 @@ export class SocketService {
     this.socket.emit('message', { userID, groupID, channelID, message });
   }
 
+  // On message recieved update subscription
   public onMessage(): Observable<any> {
     let observable = new Observable((observer) => {
       this.socket.on(
