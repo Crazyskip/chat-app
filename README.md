@@ -18,3 +18,5 @@ In server directory run `npm run start`. This will build the frontend angular ap
 ## Test
 
 In server directory run `npm run test`.
+
+### This was a University Project
